@@ -1,0 +1,13 @@
+{% set build_number = "0" %}
+
+package:
+  name: mxnet
+  version: {{ mxnet_version }}
+
+build:
+  number: {{ build_number }}
+
+requirements:
+  run:
+    - libmxnet {{ mxnet_version }}
+    - py-mxnet {{ mxnet_version }}

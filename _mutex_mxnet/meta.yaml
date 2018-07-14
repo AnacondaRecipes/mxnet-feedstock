@@ -1,0 +1,9 @@
+{% set build_number = "0" %}
+
+package:
+  name: _mutex_mxnet
+  version: {{ mxnet_variant_version }}
+
+build:
+  string: {{ mxnet_variant_str }}
+  number: {{ build_number }}

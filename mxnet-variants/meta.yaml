@@ -1,0 +1,10 @@
+{% set build_number = "0" %}
+
+package:
+  name: mxnet-{{ mxnet_variant_str }}
+  version: {{ mxnet_version }}
+
+requirements:
+  run:
+    - mxnet {{ mxnet_version }}
+    - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
