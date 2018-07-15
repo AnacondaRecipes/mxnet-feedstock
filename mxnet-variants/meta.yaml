@@ -8,3 +8,10 @@ requirements:
   run:
     - mxnet {{ mxnet_version }}
     - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
+
+about:
+  summary: MXNet metapackage which pins a variant of MXNet Conda package
+
+extra:
+  recipe-maintainers:
+    - nehaljwani
