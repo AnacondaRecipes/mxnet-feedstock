@@ -11,3 +11,10 @@ requirements:
   run:
     - libmxnet {{ mxnet_version }}
     - py-mxnet {{ mxnet_version }}
+
+about:
+  summary: MXNet metapackage for installing lib,py-MXNet Conda packages
+
+extra:
+  recipe-maintainers:
+    - nehaljwani
