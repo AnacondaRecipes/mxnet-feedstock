@@ -17,6 +17,7 @@ source:
     - patches/0008-Add-workaround-for-broken-opencv-cmake-files.patch
     - patches/0009-Add-MKLDNNROOT-lib-to-RPATH.patch
     - patches/0010-Don-t-change-rpath-to-loader_path.patch
+    - patches/0011-Add-path_suffixes-for-finding-cudnn.lib.patch
 
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}

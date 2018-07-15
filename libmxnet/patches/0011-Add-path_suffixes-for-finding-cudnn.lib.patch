@@ -1,0 +1,35 @@
+From 334681e592252c4f261ce07d5cc969c902e8b11b Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Sun, 1 Jul 2018 11:41:58 -0500
+Subject: [PATCH 11/11] Add path_suffixes for finding cudnn.lib
+
+---
+ cmake/FirstClassLangCuda.cmake | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/cmake/FirstClassLangCuda.cmake b/cmake/FirstClassLangCuda.cmake
+index f4dcbbe44..21dc65243 100644
+--- a/cmake/FirstClassLangCuda.cmake
++++ b/cmake/FirstClassLangCuda.cmake
+@@ -29,15 +29,17 @@ endif()
+ # Usage:
+ #   detect_cuDNN()
+ function(detect_cuDNN)
++  message(STATUS "CUDNN_INCLUDE is ${CUDNN_INCLUDE}")
+   set(CUDNN_ROOT "" CACHE PATH "CUDNN root folder")
+ 
+   find_path(CUDNN_INCLUDE cudnn.h
+             PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT}
+             DOC "Path to cuDNN include directory." )
+ 
+-
++  message(STATUS "CUDNN_INCLUDE is ${CUDNN_INCLUDE}")
+   find_library(CUDNN_LIBRARY NAMES libcudnn.so cudnn.lib # libcudnn_static.a
+                              PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT} ${CUDNN_INCLUDE}
++                             PATH_SUFFIXES lib lib/x64
+                              DOC "Path to cuDNN library.")
+ 
+   if(CUDNN_INCLUDE AND CUDNN_LIBRARY)
+-- 
+2.17.0
+
