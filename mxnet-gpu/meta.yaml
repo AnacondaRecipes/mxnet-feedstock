@@ -8,3 +8,11 @@ requirements:
   run:
     - mxnet {{ mxnet_version }}
     - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
+
+about:
+  home: http://mxnet.io
+  summary: MXNet metapackage which pins a variant of MXNet(GPU) Conda package
+
+extra:
+  recipe-maintainers:
+    - nehaljwani
