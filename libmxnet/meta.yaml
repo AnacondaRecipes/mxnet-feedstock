@@ -22,6 +22,7 @@ source:
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
   number: {{ build_number }}
+  skip: True              # [win and vc<14]
   missing_dso_whitelist:  # [linux]
     - libcuda.so.1        # [linux]
 
