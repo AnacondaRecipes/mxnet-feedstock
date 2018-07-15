@@ -22,9 +22,11 @@ if [[ "${mxnet_blas_impl}" == "mkl" ]]; then
 fi
 
 declare -a _gpu_opts
-if [[ ${mxnet_variant_str} =~ *gpu* ]]; then
+if [[ ${mxnet_variant_str} =~ .*gpu.* ]]; then
   _gpu_opts+=(USE_CUDA=1)
   _gpu_opts+=(USE_CUDNN=1)
+  _gpu_opts+=(USE_CUDA_PATH=/usr/local/cuda-${cudatoolkit_version})
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs
 else
   _gpu_opts+=(USE_CUDA=0)
   _gpu_opts+=(USE_CUDNN=0)
