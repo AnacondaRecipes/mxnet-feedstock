@@ -26,6 +26,12 @@ mxnet_version:
 #cudnn_version:
 #  - 7
 
+c_compiler_version:   # [linux]
+  - 5.4               # [linux]
+
+cxx_compiler_version: # [linux]
+  - 5.4               # [linux]
+
 zip_keys:
   - mxnet_variant_str
   - mxnet_variant_version
