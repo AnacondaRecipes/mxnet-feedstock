@@ -8,6 +8,9 @@ source:
   patches:
     - 0005-conda-unbundle-libmxnet-DSO.patch
 
+build:
+  skip: True  # [win and vc<14]
+
 requirements:
   build:
     - {{ compiler('c') }}
