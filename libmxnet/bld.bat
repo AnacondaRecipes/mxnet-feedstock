@@ -25,6 +25,7 @@ if "%errorlevel%" == "0" (
 
 cmake -G"%CMAKE_GENERATOR%" ^
   -Wno-dev ^
+  -DUSE_F16C=OFF ^
   -DUSE_CUDA=%IS_GPU_BUILD% ^
   -DUSE_CUDNN=%IS_GPU_BUILD% ^
   -DUSE_OPENMP=ON ^
