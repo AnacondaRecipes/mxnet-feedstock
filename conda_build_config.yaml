@@ -17,7 +17,7 @@ mxnet_blas_impl:
   - mkl
 
 mxnet_version:
-  - 1.2.0
+  - 1.2.1
 
 #cudatoolkit_version:
 #  - 8.0
