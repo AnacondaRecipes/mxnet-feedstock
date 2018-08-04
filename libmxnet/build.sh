@@ -36,6 +36,7 @@ make -j${CPU_COUNT} \
   AR="$AR" \
   CC="$CC" \
   CXX="$CXX" \
+  USE_F16C=0 \
   USE_OPENCV=1 \
   ${BLAS_OPTS} \
   USE_PROFILER=1 \
