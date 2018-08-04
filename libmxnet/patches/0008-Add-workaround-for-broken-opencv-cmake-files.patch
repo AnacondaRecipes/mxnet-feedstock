@@ -21,9 +21,9 @@ index f35ba78..1663921 100644
 +  if(MSVC)
 +    include_directories("$ENV{LIBRARY_INC}")
 +    link_directories("$ENV{LIBRARY_LIB}")
-+    set(OpenCV_LIBS "opencv_core331.lib" "opencv_imgcodecs331.lib"
-+	            "opencv_imgproc331.lib" "opencv_highgui331.lib"
-+		    "opencv_videoio331.lib")
++    set(OpenCV_LIBS "opencv_core341.lib" "opencv_imgcodecs341.lib"
++	            "opencv_imgproc341.lib" "opencv_highgui341.lib"
++		    "opencv_videoio341.lib")
 +  else()
 +    find_package(OpenCV QUIET COMPONENTS core highgui imgproc imgcodecs)
 +    if(NOT OpenCV_FOUND) # if not OpenCV 3.x, then imgcodecs are not found

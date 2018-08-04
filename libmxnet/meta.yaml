@@ -42,8 +42,7 @@ requirements:
     - mkl-devel                              # [win and (mxnet_blas_impl == 'mkl')]
     - intel-openmp                           # [mxnet_blas_impl == 'mkl']
     - openblas-devel                         # [mxnet_blas_impl == 'openblas']
-    - libopencv                              # [unix]
-    - opencv                                 # [win]
+    - libopencv
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
   run:

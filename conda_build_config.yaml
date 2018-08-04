@@ -26,6 +26,9 @@ mxnet_version:
 #cudnn_version:
 #  - 7
 
+libopencv:  # [win]
+  - 3.4.1   # [win]
+
 c_compiler_version:   # [linux]
   - 5.4               # [linux]
 
