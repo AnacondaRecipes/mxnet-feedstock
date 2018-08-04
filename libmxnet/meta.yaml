@@ -12,6 +12,7 @@ source:
     - patches/0002-OpenCV-Libs-Specify-explicitly.patch
     - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
     - patches/0004-Check-if-HOME_MKL-is-empty-before-using-it.patch
+    - patches/0005-Make-choice-of-archiver-configurable.patch
     - patches/0006-Fix-library-name-of-Intel-OMP-library.patch
     - patches/0007-Also-build-libmxnet_static-on-Windows.patch  # ['gpu' not in str(mxnet_variant_str)]
     - patches/0008-Add-workaround-for-broken-opencv-cmake-files.patch
