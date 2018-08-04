@@ -10,7 +10,7 @@ source:
   patches:
     - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
     - patches/0002-OpenCV-Libs-Specify-explicitly.patch
-    - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
+#    - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
     - patches/0004-Check-if-HOME_MKL-is-empty-before-using-it.patch
     - patches/0005-Make-choice-of-archiver-configurable.patch
     - patches/0006-Fix-library-name-of-Intel-OMP-library.patch
@@ -36,7 +36,7 @@ requirements:
     - cmake       # [win]
     - python 2.7
   host:
-    - jemalloc                               # [linux]
+#    - jemalloc                               # [linux]
     - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
     - mklml                                  # [unix and (mxnet_blas_impl == 'mkl')]
     - mkl-devel                              # [win and (mxnet_blas_impl == 'mkl')]

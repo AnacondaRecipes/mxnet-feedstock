@@ -5,14 +5,14 @@ set -ex
 cp make/config.mk config.mk
 
 export OPENMP_OPT=1
-export JEMALLOC_OPT=1
+#export JEMALLOC_OPT=1
 
 if [[ ${HOST} =~ .*darwin.* ]]; then
   cp make/osx.mk config.mk
   export OPENMP_OPT=0
   # On macOS, jemalloc defaults to JEMALLOC_PREFIX: 'je_'
   # for which mxnet source code isn't ready yet.
-  export JEMALLOC_OPT=0
+#  export JEMALLOC_OPT=0
 fi
 
 export BLAS_OPTS="USE_BLAS=$mxnet_blas_impl"
