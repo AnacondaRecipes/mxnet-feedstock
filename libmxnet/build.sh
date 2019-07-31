@@ -77,3 +77,10 @@ make install
 # make install misses this file
 mkdir -p ${PREFIX}/bin
 cp im2rec ${PREFIX}/bin/
+
+# remove static libs
+rm -f ${PREFIX}/lib/libdmlc.a
+rm -f ${PREFIX}/lib/libmxnet.a
+
+# remove cmake cruft
+rm -rf ${PREFIX}/lib/cmake/dmlc
