@@ -2,19 +2,19 @@ mxnet_variant_str:
   #  - gpu_openblas
   #  - gpu_mkl
   - openblas
-  - mkl
+  #- mkl
 
 mxnet_variant_version:
   #  - 0.0.10
   #  - 0.0.20
   - 0.0.30
-  - 0.0.40
+  #- 0.0.40
 
 mxnet_blas_impl:
   #  - openblas
   #  - mkl
   - openblas
-  - mkl
+  #- mkl
 
 mxnet_version:
   - 1.5.0
