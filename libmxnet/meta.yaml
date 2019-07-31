@@ -1,4 +1,4 @@
-{% set build_number = "1" %}
+{% set build_number = "0" %}
 
 package:
   name: libmxnet
@@ -8,17 +8,17 @@ source:
   git_url: https://github.com/apache/incubator-mxnet.git
   git_rev: {{ mxnet_version }}
   patches:
-    - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
-    - patches/0002-OpenCV-Libs-Specify-explicitly.patch
-#    - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
-    - patches/0004-Check-if-HOME_MKL-is-empty-before-using-it.patch
-    - patches/0005-Make-choice-of-archiver-configurable.patch
-    - patches/0006-Fix-library-name-of-Intel-OMP-library.patch
-    - patches/0007-Also-build-libmxnet_static-on-Windows.patch  # ['gpu' not in str(mxnet_variant_str)]
-    - patches/0008-Add-workaround-for-broken-opencv-cmake-files.patch
-    - patches/0009-Add-MKLDNNROOT-lib-to-RPATH.patch
-    - patches/0010-Don-t-change-rpath-to-loader_path.patch
-    - patches/0011-Add-path_suffixes-for-finding-cudnn.lib.patch
+#   - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
+#   - patches/0002-OpenCV-Libs-Specify-explicitly.patch
+#   - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
+#   - patches/0004-Check-if-HOME_MKL-is-empty-before-using-it.patch
+#   - patches/0005-Make-choice-of-archiver-configurable.patch
+#   - patches/0006-Fix-library-name-of-Intel-OMP-library.patch
+#   - patches/0007-Also-build-libmxnet_static-on-Windows.patch  # ['gpu' not in str(mxnet_variant_str)]
+#   - patches/0008-Add-workaround-for-broken-opencv-cmake-files.patch
+#   - patches/0009-Add-MKLDNNROOT-lib-to-RPATH.patch
+#   - patches/0010-Don-t-change-rpath-to-loader_path.patch
+#   - patches/0011-Add-path_suffixes-for-finding-cudnn.lib.patch
 
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
@@ -33,7 +33,7 @@ requirements:
     - {{ compiler('cxx') }}
     - pkg-config  # [not win]
     - make        # [not win]
-    - cmake       # [win]
+    - cmake
     - python 2.7
   host:
 #    - jemalloc                               # [linux]
@@ -80,4 +80,5 @@ about:
 
 extra:
   recipe-maintainers:
+    - jjhelmus
     - nehaljwani
