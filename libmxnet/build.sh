@@ -2,62 +2,78 @@
 
 set -ex
 
-cp make/config.mk config.mk
+# Use the OpenMP library already in the environment
+rm -rf 3rdparty/openmp/
 
-export OPENMP_OPT=1
-#export JEMALLOC_OPT=1
+export OPENMP_OPT=ON
+#export JEMALLOC_OPT=ON
 
 if [[ ${HOST} =~ .*darwin.* ]]; then
-  cp make/osx.mk config.mk
-  export OPENMP_OPT=0
+  export OPENMP_OPT=OFF
   # On macOS, jemalloc defaults to JEMALLOC_PREFIX: 'je_'
   # for which mxnet source code isn't ready yet.
-#  export JEMALLOC_OPT=0
+#  export JEMALLOC_OPT=OFF
 fi
 
-export BLAS_OPTS="USE_BLAS=$mxnet_blas_impl"
+declare -a _blas_opts
 if [[ "${mxnet_blas_impl}" == "mkl" ]]; then
-  BLAS_OPTS="${BLAS_OPTS} USE_MKLDNN=1 USE_INTEL_PATH=NONE USE_STATIC_MKL=NONE MKLDNN_ROOT=${PREFIX}"
-  export MKLDNNROOT="$PREFIX"
+  _blas_opts+=(-DBLAS="mkl")
+  _blas_opts+=(-DUSE_BLAS="mkl")
+  _blas_opts+=(-DUSE_MKL_IF_AVAILABLE=ON)
+  _blas_opts+=(-DUSE_MKLDNN=ON)
+  _blas_opts+=(-DUSE_MKLML_MKL=ON)
+else
+  _blas_opts+=(-DBLAS="open")
+  _blas_opts+=(-DUSE_BLAS="Open")
+  _blas_opts+=(-DUSE_MKL_IF_AVAILABLE=OFF)
+  _blas_opts+=(-DUSE_MKLDNN=OFF)
+  _blas_opts+=(-DUSE_MKLML_MKL=OFF)
 fi
 
 declare -a _gpu_opts
 if [[ ${mxnet_variant_str} =~ .*gpu.* ]]; then
-  _gpu_opts+=(USE_CUDA=1)
-  _gpu_opts+=(USE_CUDNN=1)
-  _gpu_opts+=(USE_CUDA_PATH=/usr/local/cuda-${cudatoolkit_version})
+  _gpu_opts+=(-DUSE_CUDA=ON)
+  _gpu_opts+=(-DUSE_CUDNN=ON)
+  _gpu_opts+=(-DUSE_CUDA_PATH=/usr/local/cuda-${cudatoolkit_version})
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs
 else
-  _gpu_opts+=(USE_CUDA=0)
-  _gpu_opts+=(USE_CUDNN=0)
+  _gpu_opts+=(-DUSE_CUDA=OFF)
+  _gpu_opts+=(-DUSE_CUDNN=OFF)
 fi
 
-make -j${CPU_COUNT} \
-  AR="$AR" \
-  CC="$CC" \
-  CXX="$CXX" \
-  USE_F16C=0 \
-  USE_OPENCV=1 \
-  ${BLAS_OPTS} \
-  USE_PROFILER=1 \
-  "${_gpu_opts[@]}" \
-  USE_CPP_PACKAGE=1 \
-  USE_SIGNAL_HANDLER=1 \
-  ADD_CFLAGS="$CFLAGS" \
-  ADD_LDFLAGS="$LDFLAGS" \
-  USE_OPENMP="$OPENMP_OPT" \
-  USE_JEMALLOC="$JEMALLOC_OPT" \
-  VERBOSE=${VERBOSE_AT}
+rm -rf build
+mkdir build
+cd build
+cmake -LAH \
+    -DCMAKE_BUILD_TYPE="Release" \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DCMAKE_AR=${AR} \
+    -DCMAKE_LINKER=${LD} \
+    -DCMAKE_NM=${NM} \
+    -DCMAKE_OBJCOPY=${OBJCOPY} \
+    -DCMAKE_OBJDUMP=${OBJDUMP} \
+    -DCMAKE_RANLIB=${RANLIB} \
+    -DCMAKE_STRIP=${STRIP} \
+    -DCMAKE_CXX_COMPILER_AR=${AR} \
+    -DCMAKE_CXX_COMPILER_RANLIB=${RANLIB} \
+    -DCMAKE_C_COMPILER_AR=${AR} \
+    -DCMAKE_C_COMPILER_RANLIB=${RANLIB} \
+    -DUSE_F16C=OFF \
+    -DUSE_OPENCV=ON \
+    "${_blas_opts[@]}" \
+    -DUSE_PROFILER=ON \
+    "${_gpu_opts[@]}" \
+    -DUSE_CPP_PACKAGE=ON \
+    -DUSE_SIGNAL_HANDLER=ON \
+    -DUSE_OPENMP="$OPENMP_OPT" \
+    -DUSE_JEMALLOC="$JEMALLOC_OPT" \
+    -DBUILD_CPP_EXAMPLES=OFF \
+    -DBUILD_TESTING=OFF \
+..
 
-mkdir -p $PREFIX/bin
-cp bin/* $PREFIX/bin/
+make -j${CPU_COUNT} ${VERBOSE_CM}
+make install
 
-mkdir -p $PREFIX/include
-cp -rv include/* $PREFIX/include/
-cp -rv 3rdparty/dmlc-core/include/* $PREFIX/include/
-cp -rv 3rdparty/nnvm/include/* $PREFIX/include/
-
-# https://github.com/apache/incubator-mxnet/tree/1.0.0/cpp-package
-cp -rv cpp-package/include/mxnet-cpp $PREFIX/include/mxnet-cpp
-
-cp -rv lib/* $PREFIX/lib/
+# make install misses this file
+mkdir -p ${PREFIX}/bin
+cp im2rec ${PREFIX}/bin/
