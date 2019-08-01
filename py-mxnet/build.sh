@@ -1,5 +1,7 @@
 set -x
 
+export MXNET_LIBRARY_PATH=${PREFIX}/lib/libmxnet.so
+
 cd python
 ${PYTHON} setup.py install --with-cython --single-version-externally-managed --record=record.txt
 
