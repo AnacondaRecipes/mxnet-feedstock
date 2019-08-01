@@ -41,7 +41,7 @@ requirements:
 #    - jemalloc                               # [linux]
     - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
     - mklml                                  # [unix and (mxnet_blas_impl == 'mkl')]
-    - mkl-devel                              # [win and (mxnet_blas_impl == 'mkl')]
+    - mkl-devel                              # [mxnet_blas_impl == 'mkl']
     - intel-openmp                           # [mxnet_blas_impl == 'mkl']
     - openblas-devel                         # [mxnet_blas_impl == 'openblas']
     - libopencv
