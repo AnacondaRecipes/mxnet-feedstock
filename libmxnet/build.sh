@@ -5,6 +5,10 @@ set -ex
 # Use the OpenMP library already in the environment
 rm -rf 3rdparty/openmp/
 
+# Use the MKL-DNN library already in the environment
+rm -rf 3rdparty/mkldnn
+rm -rf include/mkldnn
+
 export OPENMP_OPT=ON
 #export JEMALLOC_OPT=ON
 

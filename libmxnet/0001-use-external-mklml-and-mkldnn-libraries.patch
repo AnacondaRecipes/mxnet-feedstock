@@ -1,0 +1,70 @@
+From 59a3125df9d12f042cc35f08d7723e7b4d618112 Mon Sep 17 00:00:00 2001
+From: Jonathan Helmus <jjhelmus@gmail.com>
+Date: Thu, 1 Aug 2019 16:59:51 -0500
+Subject: [PATCH] use external mklml and mkldnn libraries
+
+Use external mklml and mkldnn libraries rather than downloading mklml and
+building mkldnn from source.
+---
+ CMakeLists.txt                  | 10 +---------
+ tests/cpp/include/test_mkldnn.h |  2 +-
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2142a09..66c8f5b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -247,7 +247,6 @@ if(ENABLE_TESTCOVERAGE)
+ endif()
+ 
+ if(USE_MKLDNN)
+-  include(cmake/DownloadMKLML.cmake)
+   # CPU architecture (e.g., C5) can't run on another architecture (e.g., g3).
+   if(NOT MSVC)
+     set(ARCH_OPT_FLAGS "-mtune=generic")
+@@ -260,10 +259,6 @@ if(USE_MKLDNN)
+   set(WITH_EXAMPLE OFF CACHE INTERNAL "" FORCE)
+   set(ARCH_OPT_FLAGS "" CACHE INTERNAL "" FORCE)
+ 
+-  add_subdirectory(3rdparty/mkldnn)
+-
+-  include_directories(3rdparty/mkldnn/include)
+-  include_directories(${PROJECT_BINARY_DIR}/3rdparty/mkldnn/include)
+   add_definitions(-DUSE_MKL=1)
+   add_definitions(-DCUB_MKL=1)
+   add_definitions(-DMXNET_USE_MKLDNN=1)
+@@ -468,7 +463,7 @@ endif()
+ if(USE_LAPACK)
+   message("USE_LAPACK is ON")
+   add_definitions(-DMXNET_USE_LAPACK=1)
+-  if (NOT MSVC)
++  if (NOT MSVC AND NOT USE_MKLDNN)
+     list(APPEND mxnet_LINKER_LIBS lapack)
+   endif()
+ endif()
+@@ -781,9 +776,6 @@ install(TARGETS ${MXNET_INSTALL_TARGETS}
+ 
+ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/dlpack/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/dmlc-core/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+-if(USE_MKLDNN)
+-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/mkldnn/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+-endif()
+ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/mshadow/mshadow/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mshadow)
+ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/mxnet/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mxnet)
+ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/tvm/nnvm/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+diff --git a/tests/cpp/include/test_mkldnn.h b/tests/cpp/include/test_mkldnn.h
+index f168277..730bf41 100644
+--- a/tests/cpp/include/test_mkldnn.h
++++ b/tests/cpp/include/test_mkldnn.h
+@@ -31,7 +31,7 @@
+ #include <set>
+ #include <string>
+ #include <vector>
+-#include "../../../3rdparty/mkldnn/include/mkldnn_types.h"
++#include <mkldnn_types.h>
+ #include "../../../3rdparty/googletest/googletest/include/gtest/gtest.h"
+ #include "../../../src/operator/nn/mkldnn/mkldnn_base-inl.h"
+ 
+-- 
+2.7.4
+

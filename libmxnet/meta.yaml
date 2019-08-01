@@ -10,17 +10,7 @@ source:
   url: https://github.com/apache/incubator-mxnet/releases/download/{{ mxnet_version }}/apache-mxnet-src-{{ mxnet_version }}-incubating.tar.gz
   sha256: 67a23738fc5e0b1d0fa5d67d079f85230fe26d53a6c2e46439441f62ce2a53b2
   patches:
-#   - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
-#   - patches/0002-OpenCV-Libs-Specify-explicitly.patch
-#   - patches/0003-Also-attempt-pkg-config-for-jemalloc.patch
-#   - patches/0004-Check-if-HOME_MKL-is-empty-before-using-it.patch
-#   - patches/0005-Make-choice-of-archiver-configurable.patch
-#   - patches/0006-Fix-library-name-of-Intel-OMP-library.patch
-#   - patches/0007-Also-build-libmxnet_static-on-Windows.patch  # ['gpu' not in str(mxnet_variant_str)]
-#   - patches/0008-Add-workaround-for-broken-opencv-cmake-files.patch
-#   - patches/0009-Add-MKLDNNROOT-lib-to-RPATH.patch
-#   - patches/0010-Don-t-change-rpath-to-loader_path.patch
-#   - patches/0011-Add-path_suffixes-for-finding-cudnn.lib.patch
+    - 0001-use-external-mklml-and-mkldnn-libraries.patch
 
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
