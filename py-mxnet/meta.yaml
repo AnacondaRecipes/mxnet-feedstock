@@ -18,16 +18,15 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - libmxnet {{ mxnet_version }}
-    # https://github.com/apache/incubator-mxnet/issues/10295
-    - cython <0.28  # [not win]
+    - cython
     - python
     # Numpy's C API is not used
-    - numpy >=1.8.2,<=1.15.0
-    - requests >=2.18.4,<2.19.0
+    - numpy >=1.16.0,<=2.0.0
+    - requests >=2.20.0,<3
     - setuptools
   run:
-    - numpy >=1.8.2,<=1.15.0
-    - requests >=2.18.4,<2.19.0
+    - numpy >=1.16.0,<=2.0.0
+    - requests >=2.20.0,<3
     - python
     - libmxnet {{ mxnet_version }}
 
@@ -57,4 +56,5 @@ about:
 
 extra:
   recipe-maintainers:
+    - jjhelmus
     - nehaljwani
