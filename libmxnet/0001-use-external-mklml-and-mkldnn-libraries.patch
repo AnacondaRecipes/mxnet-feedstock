@@ -1,17 +1,21 @@
-From 59a3125df9d12f042cc35f08d7723e7b4d618112 Mon Sep 17 00:00:00 2001
+From 00b071b13f9c292002f1e24475edd40ed1d5a440 Mon Sep 17 00:00:00 2001
 From: Jonathan Helmus <jjhelmus@gmail.com>
 Date: Thu, 1 Aug 2019 16:59:51 -0500
 Subject: [PATCH] use external mklml and mkldnn libraries
 
 Use external mklml and mkldnn libraries rather than downloading mklml and
 building mkldnn from source.
+
+Do not link against liblapack when using MKL.
+
+Use the intel OpenMP library (iomp) when using MKL.
 ---
- CMakeLists.txt                  | 10 +---------
+ CMakeLists.txt                  | 12 +++---------
  tests/cpp/include/test_mkldnn.h |  2 +-
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2142a09..66c8f5b 100644
+index 2142a09..e6af731 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -247,7 +247,6 @@ if(ENABLE_TESTCOVERAGE)
@@ -22,7 +26,7 @@ index 2142a09..66c8f5b 100644
    # CPU architecture (e.g., C5) can't run on another architecture (e.g., g3).
    if(NOT MSVC)
      set(ARCH_OPT_FLAGS "-mtune=generic")
-@@ -260,10 +259,6 @@ if(USE_MKLDNN)
+@@ -260,14 +259,12 @@ if(USE_MKLDNN)
    set(WITH_EXAMPLE OFF CACHE INTERNAL "" FORCE)
    set(ARCH_OPT_FLAGS "" CACHE INTERNAL "" FORCE)
  
@@ -33,7 +37,13 @@ index 2142a09..66c8f5b 100644
    add_definitions(-DUSE_MKL=1)
    add_definitions(-DCUB_MKL=1)
    add_definitions(-DMXNET_USE_MKLDNN=1)
-@@ -468,7 +463,7 @@ endif()
+   list(APPEND mxnet_LINKER_LIBS mkldnn)
++  # If using MKL, use the Intel OMP libraries
++  list(APPEND mxnet_LINKER_LIBS iomp5)
+ endif()
+ 
+ # Allow Cuda compiles outside of src tree to find things in 'src' and 'include'
+@@ -468,7 +465,7 @@ endif()
  if(USE_LAPACK)
    message("USE_LAPACK is ON")
    add_definitions(-DMXNET_USE_LAPACK=1)
@@ -42,7 +52,7 @@ index 2142a09..66c8f5b 100644
      list(APPEND mxnet_LINKER_LIBS lapack)
    endif()
  endif()
-@@ -781,9 +776,6 @@ install(TARGETS ${MXNET_INSTALL_TARGETS}
+@@ -781,9 +778,6 @@ install(TARGETS ${MXNET_INSTALL_TARGETS}
  
  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/dlpack/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/dmlc-core/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
