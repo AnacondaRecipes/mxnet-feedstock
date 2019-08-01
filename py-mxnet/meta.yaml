@@ -6,7 +6,8 @@ source:
   git_url: https://github.com/apache/incubator-mxnet.git
   git_rev: {{ mxnet_version }}
   patches:
-    - 0005-conda-unbundle-libmxnet-DSO.patch
+    - 0001-Relax-constraints-on-requests-make-graphviz-optional.patch
+    - 0002-conda-unbundle-libmxnet-DSO.patch
 
 build:
   skip: True  # [win and vc<14]
