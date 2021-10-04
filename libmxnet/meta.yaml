@@ -5,10 +5,10 @@ package:
   version: {{ mxnet_version }}
 
 source:
-  #git_url: https://github.com/apache/incubator-mxnet.git
-  #git_rev: {{ mxnet_version }}
-  url: https://github.com/apache/incubator-mxnet/releases/download/{{ mxnet_version }}/apache-mxnet-src-{{ mxnet_version }}-incubating.tar.gz
-  sha256: 67a23738fc5e0b1d0fa5d67d079f85230fe26d53a6c2e46439441f62ce2a53b2
+  git_url: https://github.com/apache/incubator-mxnet.git
+  git_rev: {{ mxnet_version }}
+  #url: https://github.com/apache/incubator-mxnet/releases/download/{{ mxnet_version }}/apache-mxnet-src-{{ mxnet_version }}-incubating.tar.gz
+  #sha256: 67a23738fc5e0b1d0fa5d67d079f85230fe26d53a6c2e46439441f62ce2a53b2
   patches:
     - 0001-use-external-mklml-and-mkldnn-libraries.patch
 
