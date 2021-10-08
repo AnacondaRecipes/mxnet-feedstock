@@ -23,10 +23,12 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - pkg-config  # [not win]
+    - pkg-config
     - make        # [not win]
     - cmake
-    - python 2.7
+    - python 3.8  # was 2.7 ...
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
 #    - jemalloc                               # [linux]
     - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
@@ -35,6 +37,7 @@ requirements:
     - intel-openmp                           # [mxnet_blas_impl == 'mkl']
     - openblas-devel                         # [mxnet_blas_impl == 'openblas']
     - libopencv
+    - imagecodecs  # [win]
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
   run:
