@@ -11,6 +11,7 @@ source:
   sha256: 67a23738fc5e0b1d0fa5d67d079f85230fe26d53a6c2e46439441f62ce2a53b2
   patches:
     - 0001-use-external-mklml-and-mkldnn-libraries.patch
+    - 0002-cpu-fix.patch
 
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
