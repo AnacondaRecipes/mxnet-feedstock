@@ -26,7 +26,7 @@ requirements:
     - pkg-config  # [not win]
     - make        # [not win]
     - cmake
-    - python 2.7
+    - python
   host:
 #    - jemalloc                               # [linux]
     - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]

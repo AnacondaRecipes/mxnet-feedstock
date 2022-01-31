@@ -2,7 +2,7 @@ mxnet_variant_str:
   #  - gpu_openblas
   #  - gpu_mkl
   - openblas
-  - mkl
+  - mkl    # [not (linux and aarch64)]
 mxnet_variant_version:
   #  - 0.0.10
   #  - 0.0.20
@@ -14,7 +14,7 @@ mxnet_blas_impl:
   - openblas
   - mkl
 mxnet_version:
-  - 1.8.0
+  - 1.9.0
 #cudatoolkit_version:
 #  - 8.0
 #  - 9.0
