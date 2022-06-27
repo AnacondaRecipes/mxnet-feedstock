@@ -28,6 +28,8 @@ requirements:
     - cmake
     - make        # [not win]
     - python 3.8  # [not win]
+    # With python 3.8 an error on win:
+    # FileNotFoundError: Could not find module '%SRC_DIR%\build\Release\libmxnet.dll'
     - python 3.7  # [win]
     - patch       # [not win]
     - m2-patch    # [win]
@@ -46,7 +48,6 @@ requirements:
     - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
-    - libopencv
     - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
     - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
 
