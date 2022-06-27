@@ -17,6 +17,8 @@ build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
   number: {{ build_number }}
   skip: True              # [win and vc<14]
+  # libopencv is currently isn't available on s390x
+  skip: True              # [s390x]
   missing_dso_whitelist:  # [linux]
     - libcuda.so.1        # [linux]
 
