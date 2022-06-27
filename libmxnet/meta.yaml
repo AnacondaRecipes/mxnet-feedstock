@@ -1,4 +1,4 @@
-{% set build_number = "0" %}
+{% set build_number = "1" %}
 
 package:
   name: libmxnet
@@ -11,6 +11,7 @@ source:
   sha256: 67a23738fc5e0b1d0fa5d67d079f85230fe26d53a6c2e46439441f62ce2a53b2
   patches:
     - 0001-use-external-mklml-and-mkldnn-libraries.patch
+    - 0002-cpu-fix.patch
 
 build:
   string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
@@ -23,10 +24,12 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - pkg-config  # [not win]
-    - make        # [not win]
+    - pkg-config
     - cmake
-    - python 2.7
+    - make        # [not win]
+    - python 3.8
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
 #    - jemalloc                               # [linux]
     - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
@@ -35,6 +38,7 @@ requirements:
     - intel-openmp                           # [mxnet_blas_impl == 'mkl']
     - openblas-devel                         # [mxnet_blas_impl == 'openblas']
     - libopencv
+    - imagecodecs  # [win]
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
   run:
@@ -51,8 +55,8 @@ test:
     - nomkl       # [x86 and mxnet_blas_impl != 'mkl']
 
 about:
-  home: http://mxnet.io
-  license: Apache-2
+  home: https://mxnet.io
+  license: Apache-2.0
   license_file: LICENSE
   license_family: Apache
   summary: MXNet is a deep learning framework designed for both efficiency and flexibility
