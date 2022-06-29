@@ -23,8 +23,8 @@ openblas:
 #
 #cudnn_version:
 #  - 7
-libopencv:  # [win]
-  - 3.4.1   # [win]
+#libopencv:  # [win]
+#  - 3.4.1   # [win]
 zip_keys:
   - mxnet_variant_str
   - mxnet_variant_version
