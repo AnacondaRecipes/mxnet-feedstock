@@ -29,6 +29,7 @@ requirements:
     - pkg-config
     - cmake
     - make        # [not win]
+    - ninja-base
     - python 3.8  # [not win]
     # With python 3.8 an error on win:
     # FileNotFoundError: Could not find module '%SRC_DIR%\build\Release\libmxnet.dll'
@@ -42,12 +43,13 @@ requirements:
     - mkl-devel                              # [mxnet_blas_impl == 'mkl']
     - intel-openmp                           # [mxnet_blas_impl == 'mkl']
     - openblas-devel  {{ openblas }}         # [mxnet_blas_impl == 'openblas']
-    - libopencv
+    - opencv
     - imagecodecs  # [win]
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
   run:
     - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
+    - _openmp_mutex         # [linux]
     - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
     - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
     - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]

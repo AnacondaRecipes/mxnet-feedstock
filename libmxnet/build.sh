@@ -45,10 +45,17 @@ else
   _gpu_opts+=(-DUSE_CUDNN=OFF)
 fi
 
-rm -rf build
-mkdir build
-cd build
-cmake -LAH \
+echo "Building ${PKG_NAME}."
+
+# Isolate the build.
+mkdir -p Build-${PKG_NAME}
+cd Build-${PKG_NAME} || exit 1
+
+# Generate the build files.
+echo "Generating the build files..."
+cmake .. ${CMAKE_ARGS} \
+    -GNinja \
+    -LAH \
     -DCMAKE_BUILD_TYPE="Release" \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_INSTALL_LIBDIR="lib" \
@@ -76,8 +83,18 @@ cmake -LAH \
     -DBUILD_TESTING=OFF \
 ..
 
-make -j${CPU_COUNT} ${VERBOSE_CM}
-make install
+# Build.
+echo "Building..."
+ninja -j${CPU_COUNT} || exit 1
+
+
+# Perform tests.
+#echo "Testing..."
+#ctest -VV --output-on-failure || true # there are failed tests
+
+# Installing
+echo "Installing..."
+ninja install || exit 1
 
 # make install misses this file
 mkdir -p ${PREFIX}/bin
@@ -89,3 +106,7 @@ rm -f ${PREFIX}/lib/libmxnet.a
 
 # remove cmake cruft
 rm -rf ${PREFIX}/lib/cmake/dmlc
+
+# Error free exit!
+echo "Error free exit!"
+exit 0
