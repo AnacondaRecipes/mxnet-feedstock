@@ -1,5 +1,8 @@
 @echo ON
 
+:: cmd
+echo "Building %PKG_NAME%."
+
 set MKL_ROOT=%LIBRARY_PREFIX%
 
 mkdir build
@@ -23,7 +26,9 @@ if "%errorlevel%" == "0" (
   set "BUILD_CPP_PACKAGE=OFF"
 )
 
-cmake -G"%CMAKE_GENERATOR%" ^
+:: Generate the build files.
+echo "Generating the build files..."
+cmake -G "Ninja" ^
   -Wno-dev ^
   -DUSE_F16C=OFF ^
   -DUSE_CUDA=%IS_GPU_BUILD% ^
@@ -40,11 +45,22 @@ cmake -G"%CMAKE_GENERATOR%" ^
   ..
 if errorlevel 1 exit 1
 
-cmake --build . --target INSTALL --config Release -- /maxcpucount:%CPU_COUNT%
-if errorlevel 1 exit 1
+:: Build.
+echo "Building..."
+ninja -j%CPU_COUNT% -v
+if errorlevel 1 exit /b 1
+
+:: Install.
+echo "Installing..."
+ninja install
+if errorlevel 1 exit /b 1
 
 if "%BUILD_CPP_PACKAGE%" == "ON" (
   REM https://github.com/apache/incubator-mxnet/tree/1.0.0/cpp-package
   xcopy /s /y %SRC_DIR%\cpp-package\include %LIBRARY_INC%\
   if errorlevel 1 exit 1
 )
+
+:: Error free exit.
+echo "Error free exit!"
+exit 0

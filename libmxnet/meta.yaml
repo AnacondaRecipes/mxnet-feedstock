@@ -30,10 +30,10 @@ requirements:
     - cmake
     - make        # [not win]
     - ninja-base
-    - python 3.8  # [not win]
+    #- python 3.8  # [not win]
     # With python 3.8 an error on win:
     # FileNotFoundError: Could not find module '%SRC_DIR%\build\Release\libmxnet.dll'
-    - python 3.7  # [win]
+    - python 3.7  
     - patch       # [not win]
     - m2-patch    # [win]
   host:
