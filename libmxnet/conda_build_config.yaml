@@ -1,18 +1,18 @@
 mxnet_variant_str:
   #  - gpu_openblas
   #  - gpu_mkl
-  - mkl
-  - openblas
+  - mkl                        # [x86 or x86_64]
+  - openblas                   # [not win]
 mxnet_variant_version:
   #  - 0.0.10
   #  - 0.0.20
-  - 0.0.30
-  - 0.0.40
+  - 0.0.30         # [x86 or x86_64]
+  - 0.0.40         # [not win]
 mxnet_blas_impl:
   #  - openblas
   #  - mkl
-  - mkl
-  - openblas
+  - mkl                        # [x86 or x86_64]
+  - openblas                   # [not win]
 mxnet_version:
   - 1.5.0
 openblas:
