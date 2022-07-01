@@ -6,6 +6,7 @@ package:
 
 build:
   string: {{ mxnet_variant_str }}
+  # trigger 1
   number: {{ build_number }}
 
 about:
