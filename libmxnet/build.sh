@@ -9,6 +9,9 @@ rm -rf 3rdparty/openmp/
 rm -rf 3rdparty/mkldnn
 rm -rf include/mkldnn
 
+export CONFIG_SHELL="/bin/bash"
+export SHELL="/bin/bash"
+
 export OPENMP_OPT=ON
 #export JEMALLOC_OPT=ON
 
@@ -73,7 +76,6 @@ cmake .. ${CMAKE_ARGS} \
     -DUSE_F16C=OFF \
     -DUSE_OPENCV=ON \
     "${_blas_opts[@]}" \
-    -DUSE_PROFILER=ON \
     "${_gpu_opts[@]}" \
     -DUSE_CPP_PACKAGE=ON \
     -DUSE_SIGNAL_HANDLER=ON \
@@ -81,6 +83,11 @@ cmake .. ${CMAKE_ARGS} \
     -DUSE_JEMALLOC="$JEMALLOC_OPT" \
     -DBUILD_CPP_EXAMPLES=OFF \
     -DBUILD_TESTING=OFF \
+    if [ "$(uname -m)" = "ppc64le" ]; then
+      -DUSE_PROFILER=OFF \
+    else
+      -DUSE_PROFILER=ON \
+    fi
 ..
 
 # Build.
