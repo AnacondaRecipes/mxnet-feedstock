@@ -118,6 +118,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - {{ pin_subpackage('libmxnet', exact=True) }}
+        - nomkl                                # [mxnet_blas_impl == 'openblas']
         - cython
         - python
         # Numpy's C API is not used
@@ -191,6 +192,7 @@ outputs:
 
     build:
       number: {{ build_number }}
+      # Skip when the variant is NOT a gpu build.
       skip: true                             # [not ('gpu' in str(mxnet_variant_str))]
 
     requirements:
