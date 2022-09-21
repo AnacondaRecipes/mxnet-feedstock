@@ -6,31 +6,14 @@ mxnet_variant_str:
 mxnet_variant_version:
   #  - 0.0.10
   #  - 0.0.20
-#  - 0.0.50         # [x86 or x86_64]
-  - 0.0.50         # [not win]
+#  - 0.0.50                     # [x86 or x86_64]
+  - 0.0.50                     # [not win]
 mxnet_blas_impl:
   #  - openblas
   #  - mkl
 #  - mkl                        # [x86 or x86_64]
   - openblas                   # [not win]
-openblas:
-  - 0.3.20
-c_compiler:
-  - gcc                        # [linux and aarch64]
-  - clang                      # [osx]
-  - vs2017                     # [win]
-cxx_compiler:
-  - gxx                        # [linux and aarch64]
-  - clangxx                    # [osx]
-  - vs2017                     # [win]
-vc:  # [win]
-  - 14  # [win]
-#cudatoolkit_version:
-#  - 8.0
-#  - 9.0
-#
-#cudnn_version:
-#  - 7
+
 zip_keys:
   - mxnet_variant_str
   - mxnet_variant_version

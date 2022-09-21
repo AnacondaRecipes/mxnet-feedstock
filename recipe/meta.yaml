@@ -56,7 +56,7 @@ outputs:
         - pkg-config  # [not win]
         - ninja-base
         - cmake
-        - python 3.8
+        - python
       host:
         #    - jemalloc                               # [linux]
         - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
@@ -64,7 +64,7 @@ outputs:
         - mkl-devel                              # [mxnet_blas_impl == 'mkl']
         - intel-openmp                           # [mxnet_blas_impl == 'mkl']
         - openblas-devel                         # [mxnet_blas_impl == 'openblas']
-        - libopencv
+        - libopencv >=4.6
         - imagecodecs                            # [win]
         - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
         - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
@@ -74,7 +74,7 @@ outputs:
         - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
         - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
-        - opencv
+        - opencv >=4.6
         - _openmp_mutex
 
     test:
@@ -175,8 +175,8 @@ outputs:
   - name: mxnet-{{ mxnet_variant_str }}
     version: {{ mxnet_version }}
 
-    build:
-      number: {{ build_number }}
+    #build:
+      #number: {{ build_number }}
 
     requirements:
       run:
@@ -191,7 +191,7 @@ outputs:
     version: {{ mxnet_version }}
 
     build:
-      number: {{ build_number }}
+      #number: {{ build_number }}
       # Skip when the variant is NOT a gpu build.
       skip: true                             # [not ('gpu' in str(mxnet_variant_str))]
 
