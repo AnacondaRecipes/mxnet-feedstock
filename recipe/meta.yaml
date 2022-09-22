@@ -16,6 +16,10 @@ source:
     - patches/0002-conda-unbundle-libmxnet-DSO.patch
     - patches/0002-cpu-fix.patch
 
+# Right now there is no valid configuration (no mkl) to build for windows. So skip everything.
+build:        # [win]
+  skip: true  # [win]
+
 requirements:
   build:
     - patch     # [not win]
