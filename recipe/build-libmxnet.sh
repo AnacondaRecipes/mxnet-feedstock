@@ -20,6 +20,33 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
 #  export JEMALLOC_OPT=OFF
 fi
 
+
+# Set target platform-/CPU-specific options
+declare -a _sse_opts
+case "${target_platform}" in
+    linux-aarch64)
+        _sse_opts+=(-DUSE_SSE=OFF)
+        _sse_opts+=(-DUSE_F16C=OFF)
+        ;;
+    linux-ppc64le)
+        _sse_opts+=(-DUSE_SSE=OFF)
+        _sse_opts+=(-DUSE_F16C=OFF)
+        ;;
+    linux-s390x)
+        _sse_opts+=(-DUSE_SSE=OFF)
+        _sse_opts+=(-DUSE_F16C=OFF)
+        ;;
+    linux-64)
+        ;;
+    osx-64)
+        ;;
+    osx-arm64)
+        _sse_opts+=(-DUSE_SSE=OFF)
+        _sse_opts+=(-DUSE_F16C=OFF)
+        AR=${BUILD_PREFIX}/bin/${AR}
+        ;;
+esac
+
 declare -a _blas_opts
 if [[ "${mxnet_blas_impl}" == "mkl" ]]; then
   _blas_opts+=(-DBLAS="mkl")
@@ -66,21 +93,24 @@ cmake .. ${CMAKE_ARGS} \
     -DCMAKE_OBJDUMP=${OBJDUMP} \
     -DCMAKE_RANLIB=${RANLIB} \
     -DCMAKE_STRIP=${STRIP} \
-    -DCMAKE_CXX_COMPILER_AR=${AR} \
+    -DCMAKE_CXX_COMPILER_AR=${CC} \
     -DCMAKE_CXX_COMPILER_RANLIB=${RANLIB} \
-    -DCMAKE_C_COMPILER_AR=${AR} \
+    -DCMAKE_C_COMPILER_AR=${CC} \
     -DCMAKE_C_COMPILER_RANLIB=${RANLIB} \
     -DUSE_F16C=OFF \
     -DUSE_OPENCV=ON \
-    "${_blas_opts[@]}" \
     -DUSE_PROFILER=ON \
-    "${_gpu_opts[@]}" \
     -DUSE_CPP_PACKAGE=ON \
     -DUSE_SIGNAL_HANDLER=ON \
     -DUSE_OPENMP="$OPENMP_OPT" \
     -DUSE_JEMALLOC="$JEMALLOC_OPT" \
     -DBUILD_CPP_EXAMPLES=OFF \
-    -DBUILD_TESTING=OFF
+    -DBUILD_TESTING=OFF \
+    \
+    "${_blas_opts[@]}" \
+    "${_gpu_opts[@]}" \
+    "${_sse_opts[@]}" \
+
 
 ninja -j${CPU_COUNT}
 ninja install
