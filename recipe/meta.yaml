@@ -78,8 +78,8 @@ outputs:
         - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
         - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
+        - _openmp_mutex                          # [mxnet_blas_impl == 'mkl']
         - opencv >=4.6
-        - _openmp_mutex
 
     test:
       commands:
