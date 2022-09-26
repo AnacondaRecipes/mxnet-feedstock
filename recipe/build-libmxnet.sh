@@ -44,6 +44,7 @@ case "${target_platform}" in
         _sse_opts+=(-DUSE_SSE=OFF)
         _sse_opts+=(-DUSE_F16C=OFF)
         AR=${BUILD_PREFIX}/bin/${AR}
+        RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
         ;;
 esac
 
