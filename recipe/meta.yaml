@@ -68,7 +68,7 @@ outputs:
         - mkl-devel                              # [mxnet_blas_impl == 'mkl']
         - intel-openmp                           # [mxnet_blas_impl == 'mkl']
         - openblas-devel                         # [mxnet_blas_impl == 'openblas']
-        - libopencv >=4.6
+        - libopencv >=4.6                        # [not s390x]
         - imagecodecs                            # [win]
         - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
         - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
@@ -79,7 +79,7 @@ outputs:
         - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
         - _openmp_mutex                          # [mxnet_blas_impl == 'mkl']
-        - opencv >=4.6
+        - opencv >=4.6                           # [not s390x]
 
     test:
       commands:

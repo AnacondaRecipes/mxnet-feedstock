@@ -21,28 +21,28 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
 fi
 
 
-# Set target platform-/CPU-specific options
-declare -a _sse_opts
+# Set target specific options
+declare -a anaconda_build_opts
 case "${target_platform}" in
     linux-aarch64)
-        _sse_opts+=(-DUSE_SSE=OFF)
-        _sse_opts+=(-DUSE_F16C=OFF)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
         ;;
     linux-ppc64le)
-        _sse_opts+=(-DUSE_SSE=OFF)
-        _sse_opts+=(-DUSE_F16C=OFF)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
         ;;
     linux-s390x)
-        _sse_opts+=(-DUSE_SSE=OFF)
-        _sse_opts+=(-DUSE_F16C=OFF)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
         ;;
     linux-64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
         ;;
     osx-64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
         ;;
     osx-arm64)
-        _sse_opts+=(-DUSE_SSE=OFF)
-        _sse_opts+=(-DUSE_F16C=OFF)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
         AR=${BUILD_PREFIX}/bin/${AR}
         RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
         ;;
@@ -99,7 +99,6 @@ cmake .. ${CMAKE_ARGS} \
     -DCMAKE_C_COMPILER_AR=${CC} \
     -DCMAKE_C_COMPILER_RANLIB=${RANLIB} \
     -DUSE_F16C=OFF \
-    -DUSE_OPENCV=ON \
     -DUSE_PROFILER=ON \
     -DUSE_CPP_PACKAGE=ON \
     -DUSE_SIGNAL_HANDLER=ON \
@@ -110,7 +109,7 @@ cmake .. ${CMAKE_ARGS} \
     \
     "${_blas_opts[@]}" \
     "${_gpu_opts[@]}" \
-    "${_sse_opts[@]}" \
+    "${anaconda_build_opts[@]}" \
 
 
 ninja -j${CPU_COUNT}
