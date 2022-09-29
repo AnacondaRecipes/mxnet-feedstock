@@ -39,6 +39,8 @@ case "${target_platform}" in
         ;;
     osx-64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        AR=${BUILD_PREFIX}/bin/${AR}
+        RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
         ;;
     osx-arm64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
