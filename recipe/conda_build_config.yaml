@@ -21,3 +21,10 @@ zip_keys:
   - mxnet_variant_str
   - mxnet_variant_version
   - mxnet_blas_impl
+
+
+# Use gcc 8 for ppc64le
+c_compiler_version:            # [ppc64le]
+  - 8                          # [ppc64le]
+cxx_compiler_version:          # [ppc64le]
+  - 8                          # [ppc64le]
