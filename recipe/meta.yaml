@@ -52,6 +52,7 @@ outputs:
       skip: True              # [win and vc<14]
       missing_dso_whitelist:  # [linux]
         - libcuda.so.1        # [linux]
+        - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
 
     requirements:
       build:
