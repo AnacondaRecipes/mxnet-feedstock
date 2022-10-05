@@ -25,13 +25,15 @@ fi
 declare -a anaconda_build_opts
 case "${target_platform}" in
     linux-aarch64)
-        anaconda_build_opts+=(-DUSE_SSE=OFF)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
         ;;
     linux-ppc64le)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
         anaconda_build_opts+=(-DUSE_SSE=OFF)
         ;;
     linux-s390x)
+        anaconda_build_opts+=(-DUSE_OPENCV=OFF)
         anaconda_build_opts+=(-DUSE_SSE=OFF)
         ;;
     linux-64)
