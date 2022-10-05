@@ -83,7 +83,7 @@ outputs:
 
     test:
       commands:
-        - im2rec -h   # [not win]
+        - im2rec -h   # [not (win or s390x)]
       requires:       # [x86 and mxnet_blas_impl != 'mkl']
         - nomkl       # [x86 and mxnet_blas_impl != 'mkl']
 

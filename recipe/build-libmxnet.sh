@@ -119,9 +119,11 @@ cmake .. ${CMAKE_ARGS} \
 ninja -j${CPU_COUNT}
 ninja install
 
-# make install misses this file
-mkdir -p ${PREFIX}/bin
-cp im2rec ${PREFIX}/bin/
+# install misses this file
+if [[ $target_platform != linux-s390x ]]; then
+    mkdir -p ${PREFIX}/bin
+    cp im2rec ${PREFIX}/bin/
+fi
 
 # remove static libs
 rm -f ${PREFIX}/lib/libdmlc.a
