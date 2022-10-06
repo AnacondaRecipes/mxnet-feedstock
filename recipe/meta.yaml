@@ -89,7 +89,7 @@ outputs:
         - nomkl       # [x86 and mxnet_blas_impl != 'mkl']
 
     about:
-      home: https://mxnet.io
+      home: https://mxnet.apache.org
       license: Apache-2
       license_file: LICENSE
       license_family: Apache
@@ -142,7 +142,7 @@ outputs:
         - mxnet
 
     about:
-      home: https://mxnet.io
+      home: https://mxnet.apache.org
       license: Apache-2
       license_file: LICENSE
       license_family: Apache
@@ -206,7 +206,7 @@ outputs:
         - {{ pin_subpackage('_mutex_mxnet', exact=True) }}
 
     about:
-      home: https://mxnet.io
+      home: https://mxnet.apache.org
       summary: MXNet metapackage which pins a variant of MXNet(GPU) Conda package
 
 
