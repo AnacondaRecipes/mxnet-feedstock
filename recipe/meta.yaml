@@ -127,12 +127,12 @@ outputs:
         - cython
         - python
         # Numpy's C API is not used
-        - numpy >=1.16.0,<=2.0.0
+        - numpy >1.16.0,<=2.0.0
         - requests >=2.20.0,<3
         - setuptools
       run:
         - {{ pin_subpackage('libmxnet', exact=True) }}
-        - numpy >=1.16.0,<=2.0.0
+        - numpy >1.16.0,<=2.0.0
         - requests >=2.20.0,<3
         - python
 
