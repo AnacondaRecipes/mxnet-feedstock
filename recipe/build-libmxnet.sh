@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+echo "Building ${PKG_NAME}."
 
 set -ex
 
@@ -18,6 +19,38 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
   # for which mxnet source code isn't ready yet.
 #  export JEMALLOC_OPT=OFF
 fi
+
+
+# Set target specific options
+declare -a anaconda_build_opts
+case "${target_platform}" in
+    linux-aarch64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
+        ;;
+    linux-ppc64le)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
+        ;;
+    linux-s390x)
+        anaconda_build_opts+=(-DUSE_OPENCV=OFF)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
+        ;;
+    linux-64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        ;;
+    osx-64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        AR=${BUILD_PREFIX}/bin/${AR}
+        RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
+        ;;
+    osx-arm64)
+        anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DUSE_SSE=OFF)
+        AR=${BUILD_PREFIX}/bin/${AR}
+        RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
+        ;;
+esac
 
 declare -a _blas_opts
 if [[ "${mxnet_blas_impl}" == "mkl" ]]; then
@@ -45,10 +78,16 @@ else
   _gpu_opts+=(-DUSE_CUDNN=OFF)
 fi
 
-rm -rf build
-mkdir build
-cd build
-cmake -LAH \
+
+# Isolate the build.
+  # rm -rf Build-${PKG_NAME}  # We could clean it up... But there really is no need.
+mkdir -p Build-${PKG_NAME}
+cd Build-${PKG_NAME} || exit 1
+
+
+cmake .. ${CMAKE_ARGS} \
+    -GNinja \
+    -LAH \
     -DCMAKE_BUILD_TYPE="Release" \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_INSTALL_LIBDIR="lib" \
@@ -59,29 +98,32 @@ cmake -LAH \
     -DCMAKE_OBJDUMP=${OBJDUMP} \
     -DCMAKE_RANLIB=${RANLIB} \
     -DCMAKE_STRIP=${STRIP} \
-    -DCMAKE_CXX_COMPILER_AR=${AR} \
+    -DCMAKE_CXX_COMPILER_AR=${CC} \
     -DCMAKE_CXX_COMPILER_RANLIB=${RANLIB} \
-    -DCMAKE_C_COMPILER_AR=${AR} \
+    -DCMAKE_C_COMPILER_AR=${CC} \
     -DCMAKE_C_COMPILER_RANLIB=${RANLIB} \
     -DUSE_F16C=OFF \
-    -DUSE_OPENCV=ON \
-    "${_blas_opts[@]}" \
     -DUSE_PROFILER=ON \
-    "${_gpu_opts[@]}" \
     -DUSE_CPP_PACKAGE=ON \
     -DUSE_SIGNAL_HANDLER=ON \
     -DUSE_OPENMP="$OPENMP_OPT" \
     -DUSE_JEMALLOC="$JEMALLOC_OPT" \
     -DBUILD_CPP_EXAMPLES=OFF \
     -DBUILD_TESTING=OFF \
-..
+    \
+    "${_blas_opts[@]}" \
+    "${_gpu_opts[@]}" \
+    "${anaconda_build_opts[@]}" \
 
-make -j${CPU_COUNT} ${VERBOSE_CM}
-make install
 
-# make install misses this file
-mkdir -p ${PREFIX}/bin
-cp im2rec ${PREFIX}/bin/
+ninja -j${CPU_COUNT}
+ninja install
+
+# install misses this file
+if [[ $target_platform != linux-s390x ]]; then
+    mkdir -p ${PREFIX}/bin
+    cp im2rec ${PREFIX}/bin/
+fi
 
 # remove static libs
 rm -f ${PREFIX}/lib/libdmlc.a

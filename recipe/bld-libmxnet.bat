@@ -1,9 +1,15 @@
 @echo ON
 
+:: cmd
+echo "Building %PKG_NAME%."
+
 set MKL_ROOT=%LIBRARY_PREFIX%
 
-mkdir build
-cd build
+:: Isolate the build.
+mkdir Build-%PKG_NAME%
+cd Build-%PKG_NAME%
+if errorlevel 1 exit /b 1
+
 
 REM TODO: Add mkldnn and mklml when
 REM https://github.com/apache/incubator-mxnet/pull/10629 is released
@@ -23,7 +29,8 @@ if "%errorlevel%" == "0" (
   set "BUILD_CPP_PACKAGE=OFF"
 )
 
-cmake -G"%CMAKE_GENERATOR%" ^
+cmake .. ${CMAKE_ARGS} ^
+  -GNinja ^
   -Wno-dev ^
   -DUSE_F16C=OFF ^
   -DUSE_CUDA=%IS_GPU_BUILD% ^
@@ -36,8 +43,8 @@ cmake -G"%CMAKE_GENERATOR%" ^
   -DBUILD_CPP_EXAMPLES=%BUILD_CPP_PACKAGE% ^
   -DCMAKE_BUILD_TYPE=Release ^
   -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
-  -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
-  ..
+  -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%
+
 if errorlevel 1 exit 1
 
 cmake --build . --target INSTALL --config Release -- /maxcpucount:%CPU_COUNT%

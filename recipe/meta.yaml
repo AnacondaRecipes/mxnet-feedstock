@@ -1,0 +1,216 @@
+{% set mxnet_version="1.5.1" %}
+{% set hash_value="b182c301eb0232aa84440b5b632b4d357a2d6d711f7e7b56133504283d0d19e7" %}
+{% set build_number="0" %}
+
+
+package:
+  name: mxnet-suite
+  version: {{ mxnet_version }}
+
+source:
+  url: https://github.com/apache/incubator-mxnet/releases/download/{{ mxnet_version }}/apache-mxnet-src-{{ mxnet_version }}-incubating.tar.gz
+  sha256: {{ hash_value }}
+  patches:
+    - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
+    - patches/0001-use-external-mklml-and-mkldnn-libraries.patch               # [mxnet_blas_impl == 'mkl']
+    - patches/0002-conda-unbundle-libmxnet-DSO.patch
+    - patches/0002-cpu-fix.patch
+
+# Right now there is no valid win-64 configuration (no mkl). So skip it. We are mxnet_blas_impl as a workaround for conda.
+build:        # [mxnet_blas_impl == 'invalid']
+  skip: true  # [mxnet_blas_impl == 'invalid']
+
+requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win]
+
+
+outputs:
+
+  - name: _mutex_mxnet
+    version: {{ mxnet_variant_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
+
+    build:
+      string: {{ mxnet_variant_str }}
+      number: {{ build_number }}
+
+    about:
+      summary: Mutex package to pin a variant of MXNet Conda package
+
+
+  - name: libmxnet
+    version: {{ mxnet_version }}
+    script: build-libmxnet.bat  # [win]
+    script: build-libmxnet.sh   # [not win]
+
+    build:
+      string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
+      number: {{ build_number }}
+      skip: True              # [win and vc<14]
+      missing_dso_whitelist:  # [linux]
+        - libcuda.so.1        # [linux]
+        - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - pkg-config  # [not win]
+        - ninja-base
+        - cmake
+        - python
+      host:
+        #    - jemalloc                               # [linux]
+        - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
+        - mklml                                  # [unix and (mxnet_blas_impl == 'mkl')]
+        - mkl-devel                              # [mxnet_blas_impl == 'mkl']
+        - intel-openmp                           # [mxnet_blas_impl == 'mkl']
+        - openblas-devel                         # [mxnet_blas_impl == 'openblas']
+        - libopencv >=4.6                        # [not s390x]
+        - imagecodecs                            # [win]
+        - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
+        - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
+      run:
+        - _mutex_mxnet {{ mxnet_variant_version }} {{ mxnet_variant_str }}
+        - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
+        - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
+        - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
+        - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
+        - _openmp_mutex                          # [linux]
+        - opencv >=4.6                           # [not s390x]
+
+    test:
+      commands:
+        - im2rec -h   # [not (win or s390x)]
+      requires:       # [x86 and mxnet_blas_impl != 'mkl']
+        - nomkl       # [x86 and mxnet_blas_impl != 'mkl']
+
+    about:
+      home: https://mxnet.apache.org
+      license: Apache-2
+      license_file: LICENSE
+      license_family: Apache
+      summary: MXNet is a deep learning framework designed for both efficiency and flexibility
+      description: |
+        Apache MXNet (incubating) is a deep learning framework designed for both
+        efficiency and flexibility. It allows you to mix symbolic and imperative
+        programming to maximize efficiency and productivity. At its core, MXNet
+        contains a dynamic dependency scheduler that automatically parallelizes both
+        symbolic and imperative operations on the fly. A graph optimization layer on
+        top of that makes symbolic execution fast and memory efficient. MXNet is
+        portable and lightweight, scaling effectively to multiple GPUs and multiple
+        machines. MXNet is also more than a deep learning project. It is also a
+        collection of blue prints and guidelines for building deep learning systems,
+        and interesting insights of DL systems for hackers.
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
+
+
+  - name: py-mxnet
+    version: {{ mxnet_version }}
+    script: build-py-mxnet.bat  # [win]
+    script: build-py-mxnet.sh   # [not win]
+
+    build:
+      number: {{ build_number }}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('libmxnet', exact=True) }}
+        - nomkl                                # [mxnet_blas_impl == 'openblas']
+        - cython
+        - python
+        # Numpy's C API is not used
+        - numpy >1.16.0,<=2.0.0
+        - requests >=2.20.0,<3
+        - setuptools
+      run:
+        - {{ pin_subpackage('libmxnet', exact=True) }}
+        - numpy >1.16.0,<=2.0.0
+        - requests >=2.20.0,<3
+        - python
+
+    test:
+      script: py-mxnet_test.py
+      imports:
+        - mxnet
+
+    about:
+      home: https://mxnet.apache.org
+      license: Apache-2
+      license_file: LICENSE
+      license_family: Apache
+      summary: MXNet is a deep learning framework designed for both efficiency and flexibility
+      description: |
+        Apache MXNet (incubating) is a deep learning framework designed for both
+        efficiency and flexibility. It allows you to mix symbolic and imperative
+        programming to maximize efficiency and productivity. At its core, MXNet
+        contains a dynamic dependency scheduler that automatically parallelizes both
+        symbolic and imperative operations on the fly. A graph optimization layer on
+        top of that makes symbolic execution fast and memory efficient. MXNet is
+        portable and lightweight, scaling effectively to multiple GPUs and multiple
+        machines. MXNet is also more than a deep learning project. It is also a
+        collection of blue prints and guidelines for building deep learning systems,
+        and interesting insights of DL systems for hackers.
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
+
+
+  - name: mxnet
+    version: {{ mxnet_version }}
+
+    build:
+      number: {{ build_number }}
+
+    requirements:
+      run:
+        - {{ pin_subpackage('libmxnet', exact=True) }}
+        - {{ pin_subpackage('py-mxnet', exact=True) }}
+
+    about:
+      summary: MXNet metapackage for installing lib,py-MXNet Conda packages
+
+
+  - name: mxnet-{{ mxnet_variant_str }}
+    version: {{ mxnet_version }}
+
+    #build:
+      #number: {{ build_number }}
+
+    requirements:
+      run:
+        - {{ pin_subpackage('libmxnet', exact=True) }}
+        - {{ pin_subpackage('_mutex_mxnet', exact=True) }}
+
+    about:
+      summary: MXNet metapackage which pins a variant of MXNet Conda package
+
+
+  - name: mxnet-gpu
+    version: {{ mxnet_version }}
+
+    build:
+      #number: {{ build_number }}
+      # Skip when the variant is NOT a gpu build.
+      skip: true                             # [not ('gpu' in str(mxnet_variant_str))]
+
+    requirements:
+      run:
+        - {{ pin_subpackage('libmxnet', exact=True) }}
+        - {{ pin_subpackage('_mutex_mxnet', exact=True) }}
+
+    about:
+      home: https://mxnet.apache.org
+      summary: MXNet metapackage which pins a variant of MXNet(GPU) Conda package
+
+
+extra:
+  recipe-maintainers:
+    - jjhelmus
+    - nehaljwani
