@@ -48,8 +48,8 @@ source:
     fn: dlpack_{{ dlpack_git_hash }}.tar.gz
     sha256: {{ dlpack_sha_hash }}
     folder: 3rdparty/dlpack
-#    patches:
-#      - patches/0011-cpp-std-14.patch
+    patches:
+      - patches/0011-cpp-std-14.patch
 
   - url: https://github.com/dmlc/dmlc-core/archive/{{ dmlccore_git_hash }}.tar.gz
     fn: dmlc-core_{{ dmlccore_git_hash }}.tar.gz

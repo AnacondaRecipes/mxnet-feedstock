@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ed6e069..c147535 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -37,9 +37,9 @@ endif(NOT CMAKE_BUILD_TYPE)
+ # Note: not working on CMake 2.8. We assume that user has
+ #       a compiler with C++11 support.
+ 
+-set(CMAKE_CXX_STANDARD 11)
++set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+-message(STATUS "C++11 support has been enabled by default.")
++message(STATUS "C++14 support has been enabled by default.")
+ 
+ option(BUILD_DOCS "Set to ON to build documentation" OFF)
+ option(BUILD_MOCK "Build mock executable" ON)
