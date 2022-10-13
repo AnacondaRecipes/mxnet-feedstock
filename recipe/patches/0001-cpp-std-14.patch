@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7b5a12610..e00d318fe 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,7 +7,7 @@ if(CMAKE_CROSSCOMPILING)
+ endif()
+ 
+ project(mxnet C CXX)
+-set(CMAKE_CXX_STANDARD 11)
++set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS ON)
+ 
+@@ -791,7 +791,7 @@ elseif(MSVC)
+       target_link_libraries(mxnet PUBLIC mshadow)
+       if(MXNET_FORCE_SHARED_CRT)
+         target_compile_options(
+-            mxnet 
++            mxnet
+             PRIVATE "$<$<AND:$<CONFIG:DEBUG>,$<COMPILE_LANGUAGE:CUDA>>:-Xcompiler=-MDd -Gy /bigobj>")
+         target_compile_options(
+             mxnet

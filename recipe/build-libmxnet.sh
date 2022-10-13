@@ -110,6 +110,7 @@ cmake .. ${CMAKE_ARGS} \
     -DUSE_JEMALLOC="$JEMALLOC_OPT" \
     -DBUILD_CPP_EXAMPLES=OFF \
     -DBUILD_TESTING=OFF \
+    -DUSE_CXX14_IF_AVAILABLE=ON \
     \
     "${_blas_opts[@]}" \
     "${_gpu_opts[@]}" \

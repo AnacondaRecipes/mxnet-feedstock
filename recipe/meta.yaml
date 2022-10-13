@@ -18,17 +18,17 @@
 {% set nvidia_cub_git_hash = "0158fa19f28619886232defd412433974af89611" %}
 {% set nvidia_cub_sha_hash = "43424c4c17a997d1d730c89ec14688671245de7941e02b388d7d3df6ea53777a" %}
 
-{% set onednn_git_hash = "58be3660fb57c4c4a3d306730e849237d1271572" %}
-{% set onednn_sha_hash = "0d170c30ea0a35fbe48008e0e7e729d0993720c14f320ce8e73a891ae176eec4" %}
+#{% set onednn_git_hash = "58be3660fb57c4c4a3d306730e849237d1271572" %}
+#{% set onednn_sha_hash = "0d170c30ea0a35fbe48008e0e7e729d0993720c14f320ce8e73a891ae176eec4" %}
 
-{% set onnxtensorrt_git_hash = "8b6144a88534e6fd15b6ef5457f1c1a1fc153939" %}
-{% set onnxtensorrt_sha_hash = "4b51c2784ff119a4db0baec8f332a1364c6c25360c1c190271aaa20109fd6028" %}
+{% set onnxtensorrt_git_hash = "2eb74d933f89e1590fdbfc64971a36e5f72df720" %}
+{% set onnxtensorrt_sha_hash = "df99819727445c247fb5c21c2fd825ded3269376867457ae84fa6d6f1c0ae331" %}
 
 {% set pslite_git_hash = "34fd45cae457d59850fdcb2066467778d0673f21" %}
 {% set pslite_sha_hash = "ec5d5baab8bbf0c3983ad5f18d7f963f15ae7cd4d154ec204b03c1dceccf209b" %}
 
-{% set tvm_git_hash = "efdac9439506d1de5eec91ecc795982c78e41909" %}
-{% set tvm_sha_hash = "656c38d66baeab885b0212602148bb55ad3cf7d22f52ded8ece53f88e103a2f5" %}
+{% set tvm_git_hash = "9bd2c7b44208ed992061f8c2688e1137357f1db1" %}
+{% set tvm_sha_hash = "68d0c2f14bd00db2dc90fc1a2ed389a3d04d9176c5f96133dfa44b81c28cdd89" %}
 
 
 package:
@@ -39,6 +39,7 @@ source:
   - url:  https://github.com/apache/incubator-mxnet/archive/refs/tags/{{ mxnet_version }}.tar.gz
     sha256: {{ hash_value }}
     patches:
+      - patches/0001-cpp-std-14.patch
       - patches/0001-make-graphviz-optional.patch
       - patches/0002-conda-unbundle-libmxnet-DSO.patch
       #    - patches/0002-cpu-fix.patch
@@ -47,6 +48,8 @@ source:
     fn: dlpack_{{ dlpack_git_hash }}.tar.gz
     sha256: {{ dlpack_sha_hash }}
     folder: 3rdparty/dlpack
+#    patches:
+#      - patches/0011-cpp-std-14.patch
 
   - url: https://github.com/dmlc/dmlc-core/archive/{{ dmlccore_git_hash }}.tar.gz
     fn: dmlc-core_{{ dmlccore_git_hash }}.tar.gz
@@ -57,21 +60,27 @@ source:
     fn: googletest_{{ googletest_git_hash }}.tar.gz
     sha256: {{ googletest_sha_hash }}
     folder: 3rdparty/googletest
+#    patches:
+#      - patches/0031-cpp-std-14.patch
 
   - url: https://github.com/kpu/intgemm/archive/{{ intgemm_git_hash }}.tar.gz
     fn: intgemm_{{ intgemm_git_hash }}.tar.gz
     sha256: {{ intgemm_sha_hash }}
     folder: 3rdparty/intgemm
+#    patches:
+#      - patches/0041-cpp-std-14.patch
 
   - url: https://github.com/NVlabs/cub/archive/{{ nvidia_cub_git_hash }}.tar.gz
     fn: nvidia_cub_{{ nvidia_cub_git_hash }}.tar.gz
     sha256: {{ nvidia_cub_sha_hash }}
     folder: 3rdparty/nvidia_cub
+#    patches:
+#      - patches/0051-cpp-std-14.patch
 
-  - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
-    fn: onednn_{{ onednn_git_hash }}.tar.gz
-    sha256: {{ onednn_sha_hash }}
-    folder: 3rdparty/onednn
+#  - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
+#    fn: onednn_{{ onednn_git_hash }}.tar.gz
+#    sha256: {{ onednn_sha_hash }}
+#    folder: 3rdparty/onednn
 
   - url: https://github.com/onnx/onnx-tensorrt/archive/{{ onnxtensorrt_git_hash }}.tar.gz
     fn: onnx-tensorrt_{{ onnxtensorrt_git_hash }}.tar.gz
@@ -82,11 +91,15 @@ source:
     fn: ps-lite_{{ pslite_git_hash }}.tar.gz
     sha256: {{ pslite_sha_hash }}
     folder: 3rdparty/ps-lite
+#    patches:
+#      - patches/0081-cpp-std-14.patch
 
   - url: https://github.com/apache/incubator-tvm/archive/{{ tvm_git_hash }}.tar.gz
     fn: tvm_{{ tvm_git_hash }}.tar.gz
     sha256: {{ tvm_sha_hash }}
     folder: 3rdparty/tvm
+#    patches:
+#      - patches/0091-cpp-std-14.patch
 
 
 # Right now there is no valid win-64 configuration (no mkl). So skip it. We are mxnet_blas_impl as a workaround for conda.
