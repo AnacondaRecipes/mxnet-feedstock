@@ -39,8 +39,8 @@ source:
   - url:  https://github.com/apache/incubator-mxnet/archive/refs/tags/{{ mxnet_version }}.tar.gz
     sha256: {{ hash_value }}
     patches:
-#      - patches/0001-make-graphviz-optional.patch
-#      - patches/0002-conda-unbundle-libmxnet-DSO.patch
+      - patches/0001-make-graphviz-optional.patch
+      - patches/0002-conda-unbundle-libmxnet-DSO.patch
       #    - patches/0002-cpu-fix.patch
 
   - url: https://github.com/dmlc/dlpack/archive/{{ dlpack_git_hash }}.tar.gz
@@ -49,42 +49,42 @@ source:
     folder: 3rdparty/dlpack
 
   - url: https://github.com/dmlc/dmlc-core/archive/{{ dmlccore_git_hash }}.tar.gz
-    fn: dmlc-core_{{ dmlccore_git_hash }}
+    fn: dmlc-core_{{ dmlccore_git_hash }}.tar.gz
     sha256: {{ dmlccore_sha_hash }}
     folder: 3rdparty/dmlc-core
 
   - url: https://github.com/google/googletest/archive/{{ googletest_git_hash }}.tar.gz
-    fn: googletest_{{ googletest_git_hash }}
+    fn: googletest_{{ googletest_git_hash }}.tar.gz
     sha256: {{ googletest_sha_hash }}
     folder: 3rdparty/googletest
 
   - url: https://github.com/kpu/intgemm/archive/{{ intgemm_git_hash }}.tar.gz
-    fn: intgemm_{{ intgemm_git_hash }}
+    fn: intgemm_{{ intgemm_git_hash }}.tar.gz
     sha256: {{ intgemm_sha_hash }}
     folder: 3rdparty/intgemm
 
   - url: https://github.com/NVlabs/cub/archive/{{ nvidia_cub_git_hash }}.tar.gz
-    fn: nvidia_cub_{{ nvidia_cub_git_hash }}
+    fn: nvidia_cub_{{ nvidia_cub_git_hash }}.tar.gz
     sha256: {{ nvidia_cub_sha_hash }}
     folder: 3rdparty/nvidia_cub
 
   - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
-    fn: onednn_{{ onednn_git_hash }}
+    fn: onednn_{{ onednn_git_hash }}.tar.gz
     sha256: {{ onednn_sha_hash }}
     folder: 3rdparty/onednn
 
   - url: https://github.com/onnx/onnx-tensorrt/archive/{{ onnxtensorrt_git_hash }}.tar.gz
-    fn: onnx-tensorrt_{{ onnxtensorrt_git_hash }}
+    fn: onnx-tensorrt_{{ onnxtensorrt_git_hash }}.tar.gz
     sha256: {{ onnxtensorrt_sha_hash }}
     folder: 3rdparty/onnx-tensorrt
 
   - url: https://github.com/dmlc/ps-lite/archive/{{ pslite_git_hash }}.tar.gz
-    fn: ps-lite_{{ pslite_git_hash }}
+    fn: ps-lite_{{ pslite_git_hash }}.tar.gz
     sha256: {{ pslite_sha_hash }}
     folder: 3rdparty/ps-lite
 
   - url: https://github.com/apache/incubator-tvm/archive/{{ tvm_git_hash }}.tar.gz
-    fn: tvm_{{ tvm_git_hash }}
+    fn: tvm_{{ tvm_git_hash }}.tar.gz
     sha256: {{ tvm_sha_hash }}
     folder: 3rdparty/tvm
 
