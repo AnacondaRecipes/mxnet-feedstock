@@ -43,6 +43,8 @@ case "${target_platform}" in
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
         AR=${BUILD_PREFIX}/bin/${AR}
         RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
+        # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
+        CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
         ;;
     osx-arm64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
