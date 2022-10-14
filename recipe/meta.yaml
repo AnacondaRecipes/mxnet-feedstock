@@ -67,8 +67,8 @@ source:
     fn: intgemm_{{ intgemm_git_hash }}.tar.gz
     sha256: {{ intgemm_sha_hash }}
     folder: 3rdparty/intgemm
-#    patches:
-#      - patches/0041-cpp-std-14.patch
+    patches:
+      - patches/0041-cpp-std-14.patch
 
   - url: https://github.com/NVlabs/cub/archive/{{ nvidia_cub_git_hash }}.tar.gz
     fn: nvidia_cub_{{ nvidia_cub_git_hash }}.tar.gz
