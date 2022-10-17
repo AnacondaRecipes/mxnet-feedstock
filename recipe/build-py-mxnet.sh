@@ -1,4 +1,7 @@
-set -x
+#!/usr/bin/env bash
+echo "Building ${PKG_NAME}."
+
+set -ex
 
 ENABLE_CYTHON=
 if [[ $(uname) == Darwin ]]; then
@@ -21,3 +24,8 @@ else
   find ${PREFIX} | grep libmxnet.so | grep -v $PREFIX/lib/libmxnet.so | xargs rm -f
   ln -sf ../../../libmxnet.so $SP_DIR/mxnet/libmxnet.so
 fi
+
+
+# Error free exit!
+echo "Error free exit!"
+exit 0
