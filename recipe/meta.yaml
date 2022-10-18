@@ -103,8 +103,8 @@ source:
 
 
 # THIS IS NOT FOR MAIN!!!!!
-build:        # [not osx]
-skip: True    # [not osx]                                     <----- do not allow into main!
+build:          # [not osx]
+  skip: True    # [not osx]                                     <----- do not allow into main!
 
 
 requirements:
