@@ -136,6 +136,7 @@ outputs:
       string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
       number: {{ build_number }}
       skip: True              # [win and vc<14]
+      skip: True              # [not osx]                                     <----- do not allow into main!
       missing_dso_whitelist:  # [linux]
         - libcuda.so.1        # [linux]
         - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
@@ -147,7 +148,8 @@ outputs:
         - pkg-config  # [not win]
         - ninja-base
         - cmake
-        - python
+        - python                                 # [not osx]
+        - python 3.10                            # [osx]
       host:
         #    - jemalloc                               # [linux]
         - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
