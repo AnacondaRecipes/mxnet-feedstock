@@ -148,6 +148,7 @@ outputs:
         - ninja-base
         - cmake
         - python
+        - ccache  # [osxß]
       host:
         #    - jemalloc                               # [linux]
         - mkl-dnn                                # [unix and (mxnet_blas_impl == 'mkl')]
