@@ -132,6 +132,17 @@ if [[ $target_platform != linux-s390x ]]; then
     cp im2rec ${PREFIX}/bin/
 fi
 
+if [[ $(uname) == Darwin ]]; then
+  find ${PREFIX} | grep libmxnet.dylib | grep -v $PREFIX/lib/libmxnet.dylib | xargs rm -f
+  ln -sf ../../../libmxnet.dylib $SP_DIR/mxnet/libmxnet.dylib
+
+else
+  # Delete the copied libmxnet.so and create a relative symlink to $PREFIX/lib/
+  # The build scripts produce .so even on osx
+  find ${PREFIX} | grep libmxnet.so | grep -v $PREFIX/lib/libmxnet.so | xargs rm -f
+  ln -sf ../../../libmxnet.so $SP_DIR/mxnet/libmxnet.so
+fi
+
 # remove static libs
 rm -f ${PREFIX}/lib/libdmlc.a
 rm -f ${PREFIX}/lib/libmxnet.a
