@@ -126,15 +126,14 @@ echo "Building..."
 ninja -j${CPU_COUNT}
 ninja install
 
+if [[ $(uname) == 'darwin' ]]; then
+    cp -L libmxnet.dylib lib/libmxnet.dylib
+fi
+
 # install misses this file
 if [[ $target_platform != linux-s390x ]]; then
     mkdir -p ${PREFIX}/bin
     cp im2rec ${PREFIX}/bin/
-fi
-
-if [[ $(uname) == Darwin ]]; then
-  find ${PREFIX} | grep libmxnet.dylib | grep -v $PREFIX/lib/libmxnet.dylib | xargs rm -f
-  ln -sf $PREFIX/lib/libmxnet.dylib $PREFIX/libmxnet.dylib
 fi
 
 # remove static libs
