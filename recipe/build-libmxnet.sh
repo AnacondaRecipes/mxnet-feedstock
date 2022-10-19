@@ -134,13 +134,7 @@ fi
 
 if [[ $(uname) == Darwin ]]; then
   find ${PREFIX} | grep libmxnet.dylib | grep -v $PREFIX/lib/libmxnet.dylib | xargs rm -f
-  ln -sf ../../../libmxnet.dylib $SP_DIR/mxnet/libmxnet.dylib
-
-else
-  # Delete the copied libmxnet.so and create a relative symlink to $PREFIX/lib/
-  # The build scripts produce .so even on osx
-  find ${PREFIX} | grep libmxnet.so | grep -v $PREFIX/lib/libmxnet.so | xargs rm -f
-  ln -sf ../../../libmxnet.so $SP_DIR/mxnet/libmxnet.so
+  ln -sf $PREFIX/lib/libmxnet.dylib $PREFIX/libmxnet.dylib
 fi
 
 # remove static libs
