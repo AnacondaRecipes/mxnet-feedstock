@@ -23,6 +23,7 @@ fi
 
 # Set target specific options
 declare -a anaconda_build_opts
+declare -a _build_opts
 case "${target_platform}" in
     linux-aarch64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
@@ -80,6 +81,11 @@ else
   _gpu_opts+=(-DUSE_CUDNN=OFF)
 fi
 
+if [[ $(uname) != Darwin ]]; then
+      _build_opts+=(-DCMAKE_INSTALL_LIBDIR="lib")
+else
+      _build_opts+=()
+fi
 
 # Isolate the build.
   # rm -rf Build-${PKG_NAME}  # We could clean it up... But there really is no need.
@@ -94,7 +100,7 @@ cmake .. ${CMAKE_ARGS} \
     -LAH \
     -DCMAKE_BUILD_TYPE="Release" \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_INSTALL_LIBDIR="lib" \
+    "${_build_opts[@]}" \
     -DCMAKE_AR=${AR} \
     -DCMAKE_LINKER=${LD} \
     -DCMAKE_NM=${NM} \
@@ -126,10 +132,6 @@ echo "Building..."
 ninja -j${CPU_COUNT}
 ninja install
 
-if [[ $(uname) == Darwin ]]; then
-    ls -la
-    cp -L libmxnet.dylib lib/libmxnet.dylib
-fi
 
 # install misses this file
 if [[ $target_platform != linux-s390x ]]; then
