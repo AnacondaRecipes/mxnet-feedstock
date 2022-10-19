@@ -127,9 +127,7 @@ ninja -j${CPU_COUNT}
 ninja install
 
 if [[ $(uname) == Darwin ]]; then
-    ls -la
-    find ${PREFIX} | grep libmxnet.dylib | grep -v $PREFIX/lib/libmxnet.dylib | xargs rm -f
-    cp $PREFIX/libmxnet.so $PREFIX/lib/libmxnet.dylib
+    cp $PREFIX/libmxnet.dylib $PREFIX/lib/
 fi
 
 # install misses this file
