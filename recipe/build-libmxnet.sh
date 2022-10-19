@@ -126,7 +126,8 @@ echo "Building..."
 ninja -j${CPU_COUNT}
 ninja install
 
-if [[ $(uname) == 'darwin' ]]; then
+if [[ $(uname) == Darwin ]]; then
+    ls -la
     cp -L libmxnet.dylib lib/libmxnet.dylib
 fi
 
