@@ -169,6 +169,7 @@ outputs:
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
         - _openmp_mutex                          # [linux]
         - opencv >=4.6                           # [not s390x]
+        - {{ pin_subpackage('libmxnet', exact=True) }}
 
     test:
       commands:
