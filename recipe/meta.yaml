@@ -140,6 +140,8 @@ outputs:
       missing_dso_whitelist:  # [linux]
         - libcuda.so.1        # [linux]
         - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
+      run_exports:                                      # [osx]
+        - {{ pin_subpackage('libmxnet', exact=True) }}  # [osx]
 
     requirements:
       build:
@@ -169,7 +171,7 @@ outputs:
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
         - _openmp_mutex                          # [linux]
         - opencv >=4.6                           # [not s390x]
-        - {{ pin_subpackage('libmxnet', exact=True) }}
+#        - {{ pin_subpackage('libmxnet', exact=True) }}                     <-------------- This did not help.
 
     test:
       commands:
