@@ -39,6 +39,7 @@ source:
   - url:  https://github.com/apache/incubator-mxnet/archive/refs/tags/{{ mxnet_version }}.tar.gz
     sha256: {{ hash_value }}
     patches:
+      - patches/001-osx-cmake-rpath-fix.patch            # [osx]
       - patches/0001-cpp-std-14.patch
       - patches/0001-make-graphviz-optional.patch
       - patches/0002-conda-unbundle-libmxnet-DSO.patch
