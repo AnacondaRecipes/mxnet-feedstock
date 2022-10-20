@@ -95,6 +95,7 @@ cmake .. ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE="Release" \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_INSTALL_LIBDIR="lib" \
+    -DCMAKE_INSTALL_RPATH="${PREFIX}/lib" \
     -DCMAKE_AR=${AR} \
     -DCMAKE_LINKER=${LD} \
     -DCMAKE_NM=${NM} \
