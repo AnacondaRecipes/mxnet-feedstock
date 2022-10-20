@@ -18,6 +18,7 @@
 {% set nvidia_cub_git_hash = "0158fa19f28619886232defd412433974af89611" %}
 {% set nvidia_cub_sha_hash = "43424c4c17a997d1d730c89ec14688671245de7941e02b388d7d3df6ea53777a" %}
 
+# This are future/2.x variables.
 #{% set onednn_git_hash = "58be3660fb57c4c4a3d306730e849237d1271572" %}
 #{% set onednn_sha_hash = "0d170c30ea0a35fbe48008e0e7e729d0993720c14f320ce8e73a891ae176eec4" %}
 
@@ -42,7 +43,6 @@ source:
       - patches/0001-cpp-std-14.patch
       - patches/0001-make-graphviz-optional.patch
       - patches/0002-conda-unbundle-libmxnet-DSO.patch
-      #    - patches/0002-cpu-fix.patch
 
   - url: https://github.com/dmlc/dlpack/archive/{{ dlpack_git_hash }}.tar.gz
     fn: dlpack_{{ dlpack_git_hash }}.tar.gz
@@ -60,8 +60,6 @@ source:
     fn: googletest_{{ googletest_git_hash }}.tar.gz
     sha256: {{ googletest_sha_hash }}
     folder: 3rdparty/googletest
-#    patches:
-#      - patches/0031-cpp-std-14.patch
 
   - url: https://github.com/kpu/intgemm/archive/{{ intgemm_git_hash }}.tar.gz
     fn: intgemm_{{ intgemm_git_hash }}.tar.gz
@@ -74,13 +72,12 @@ source:
     fn: nvidia_cub_{{ nvidia_cub_git_hash }}.tar.gz
     sha256: {{ nvidia_cub_sha_hash }}
     folder: 3rdparty/nvidia_cub
-#    patches:
-#      - patches/0051-cpp-std-14.patch
 
-#  - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
-#    fn: onednn_{{ onednn_git_hash }}.tar.gz
-#    sha256: {{ onednn_sha_hash }}
-#    folder: 3rdparty/onednn
+  # This will be useful for 2.x builds
+  #  - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
+  #    fn: onednn_{{ onednn_git_hash }}.tar.gz
+  #    sha256: {{ onednn_sha_hash }}
+  #    folder: 3rdparty/onednn
 
   - url: https://github.com/onnx/onnx-tensorrt/archive/{{ onnxtensorrt_git_hash }}.tar.gz
     fn: onnx-tensorrt_{{ onnxtensorrt_git_hash }}.tar.gz
@@ -91,15 +88,11 @@ source:
     fn: ps-lite_{{ pslite_git_hash }}.tar.gz
     sha256: {{ pslite_sha_hash }}
     folder: 3rdparty/ps-lite
-#    patches:
-#      - patches/0081-cpp-std-14.patch
 
   - url: https://github.com/apache/incubator-tvm/archive/{{ tvm_git_hash }}.tar.gz
     fn: tvm_{{ tvm_git_hash }}.tar.gz
     sha256: {{ tvm_sha_hash }}
     folder: 3rdparty/tvm
-#    patches:
-#      - patches/0091-cpp-std-14.patch
 
 
 # Right now there is no valid win-64 configuration (no mkl). So skip it. We are mxnet_blas_impl as a workaround for conda.
@@ -124,8 +117,10 @@ outputs:
       number: {{ build_number }}
 
     about:
+      home: https://mxnet.apache.org
       summary: Mutex package to pin a variant of MXNet Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: libmxnet
     version: {{ mxnet_version }}
@@ -260,8 +255,10 @@ outputs:
         - {{ pin_subpackage('py-mxnet', exact=True) }}
 
     about:
+      home: https://mxnet.apache.org
       summary: MXNet metapackage for installing lib,py-MXNet Conda packages
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: mxnet-{{ mxnet_variant_str }}
     version: {{ mxnet_version }}
@@ -275,8 +272,10 @@ outputs:
         - {{ pin_subpackage('_mutex_mxnet', exact=True) }}
 
     about:
+      home: https://mxnet.apache.org
       summary: MXNet metapackage which pins a variant of MXNet Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: mxnet-gpu
     version: {{ mxnet_version }}
@@ -294,7 +293,8 @@ outputs:
     about:
       home: https://mxnet.apache.org
       summary: MXNet metapackage which pins a variant of MXNet(GPU) Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
 extra:
   recipe-maintainers:
