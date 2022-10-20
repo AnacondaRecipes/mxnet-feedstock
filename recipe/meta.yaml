@@ -1,6 +1,6 @@
 {% set mxnet_version="1.5.1" %}
 {% set hash_value="b182c301eb0232aa84440b5b632b4d357a2d6d711f7e7b56133504283d0d19e7" %}
-{% set build_number="0" %}
+{% set build_number="1" %}
 
 
 package:
