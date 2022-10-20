@@ -123,8 +123,14 @@ cmake .. ${CMAKE_ARGS} \
 
 # Build.
 echo "Building..."
-ninja -j${CPU_COUNT}
+echo
+echo "=== BUILD ${PKG_NAME} ==="
+ninja -v -j${CPU_COUNT}
+echo
+echo "=== INSTALL ${PKG_NAME} ==="
 ninja install
+echo
+echo "=== COMPLETE ${PKG_NAME} ==="
 
 # install misses this file
 if [[ $target_platform != linux-s390x ]]; then
