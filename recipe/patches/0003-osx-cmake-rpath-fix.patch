@@ -5,19 +5,10 @@ index 7b5a12610..15007656d 100644
 @@ -11,6 +11,9 @@ set(CMAKE_CXX_STANDARD 11)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
  set(CMAKE_CXX_EXTENSIONS ON)
- 
+
 +# Set RPATH for OSX
 +set(CMAKE_MACOSX_RPATH 1)
 +
  if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
    # Load config.cmake only if mxnet is not compiled as a dependency of another project
    include(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
-@@ -791,7 +794,7 @@ elseif(MSVC)
-       target_link_libraries(mxnet PUBLIC mshadow)
-       if(MXNET_FORCE_SHARED_CRT)
-         target_compile_options(
--            mxnet 
-+            mxnet
-             PRIVATE "$<$<AND:$<CONFIG:DEBUG>,$<COMPILE_LANGUAGE:CUDA>>:-Xcompiler=-MDd -Gy /bigobj>")
-         target_compile_options(
-             mxnet
