@@ -116,7 +116,7 @@ cmake .. ${CMAKE_ARGS} \
     "${anaconda_build_opts[@]}" \
 
 
-ninja -j${CPU_COUNT}
+ninja -v -j${CPU_COUNT}
 ninja install
 
 # install misses this file
