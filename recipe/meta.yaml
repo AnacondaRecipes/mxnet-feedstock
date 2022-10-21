@@ -133,8 +133,8 @@ outputs:
       skip: True              # [win and vc<14]
       missing_dso_whitelist:  # [linux]
         - libcuda.so.1        # [linux]
-        - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
-        - '**libmxnet.dylib'  # [osx]  This is a quirk in conda-build's testing
+        - '$RPATH/ld64.so.1'  # [linux]
+        - '*/libmxnet.dylib'  # [osx]
     requirements:
       build:
         - {{ compiler('c') }}
