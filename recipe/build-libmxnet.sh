@@ -86,6 +86,10 @@ fi
 mkdir -p Build-${PKG_NAME}
 cd Build-${PKG_NAME} || exit 1
 
+echo "=============================================================================="
+echo "PREFIX= ${PREFIX}
+echo "=============================================================================="
+exit -1
 
 # Generate the build files.
 echo "Generating the build files..."
