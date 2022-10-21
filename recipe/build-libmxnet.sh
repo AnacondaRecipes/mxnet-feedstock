@@ -41,6 +41,7 @@ case "${target_platform}" in
         ;;
     osx-64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
+        anaconda_build_opts+=(-DCMAKE_MACOSX_RPATH=1)
         AR=${BUILD_PREFIX}/bin/${AR}
         RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
         # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
@@ -49,6 +50,7 @@ case "${target_platform}" in
     osx-arm64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
         anaconda_build_opts+=(-DUSE_SSE=OFF)
+        anaconda_build_opts+=(-DCMAKE_MACOSX_RPATH=1)
         AR=${BUILD_PREFIX}/bin/${AR}
         RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
         ;;

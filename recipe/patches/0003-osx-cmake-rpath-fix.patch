@@ -5,7 +5,7 @@ index 7b5a12610..69b886ea1 100644
 @@ -11,6 +11,9 @@ set(CMAKE_CXX_STANDARD 11)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
  set(CMAKE_CXX_EXTENSIONS ON)
- 
+
 +# Set RPATH for OSX
 +set(CMAKE_MACOSX_RPATH 1)
 +
@@ -15,7 +15,7 @@ index 7b5a12610..69b886ea1 100644
 @@ -143,14 +146,14 @@ else()
    execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE SYSTEM_ARCHITECTURE)
  endif()
- 
+
 -if(CMAKE_BUILD_TYPE STREQUAL "Distribution" AND UNIX AND NOT APPLE)
 +#if(CMAKE_BUILD_TYPE STREQUAL "Distribution" AND UNIX AND NOT APPLE)
    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
@@ -26,15 +26,5 @@ index 7b5a12610..69b886ea1 100644
    set(Protobuf_USE_STATIC_LIBS ON)
 -endif()
 +#endif()
- 
+
  set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/upstream;${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules;${CMAKE_MODULE_PATH}")
- 
-@@ -791,7 +794,7 @@ elseif(MSVC)
-       target_link_libraries(mxnet PUBLIC mshadow)
-       if(MXNET_FORCE_SHARED_CRT)
-         target_compile_options(
--            mxnet 
-+            mxnet
-             PRIVATE "$<$<AND:$<CONFIG:DEBUG>,$<COMPILE_LANGUAGE:CUDA>>:-Xcompiler=-MDd -Gy /bigobj>")
-         target_compile_options(
-             mxnet
