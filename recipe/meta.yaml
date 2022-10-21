@@ -208,7 +208,7 @@ outputs:
         - cython
         - python
         # Numpy's C API is not used
-        - numpy >1.16.0,<=2.0.0
+        - numpy
         - requests >=2.20.0,<3
         - setuptools
       run:
@@ -245,6 +245,8 @@ outputs:
 
   - name: mxnet
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     build:
       number: {{ build_number }}
@@ -262,6 +264,8 @@ outputs:
 
   - name: mxnet-{{ mxnet_variant_str }}
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     #build:
       #number: {{ build_number }}
@@ -279,6 +283,8 @@ outputs:
 
   - name: mxnet-gpu
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     build:
       #number: {{ build_number }}
