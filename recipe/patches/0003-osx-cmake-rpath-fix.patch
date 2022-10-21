@@ -6,7 +6,7 @@ index 7b5a12610..50a3c2063 100644
  cmake_minimum_required(VERSION 3.13)
 
 +
-+message( "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n================================="
++message( "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n=================================" )
 +
 +
  # workaround to store CMAKE_CROSSCOMPILING because is getting reset by the project command
@@ -18,4 +18,4 @@ index 7b5a12610..50a3c2063 100644
  endif()
 +
 +
-+message(FATAL_ERROR "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n================================="
++message(FATAL_ERROR "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n=================================" )
