@@ -42,6 +42,7 @@ source:
       - patches/0001-cpp-std-14.patch
       - patches/0001-make-graphviz-optional.patch
       - patches/0002-conda-unbundle-libmxnet-DSO.patch
+      - patches/0003-osx-cmake-rpath-fix.patch                       # prints some cmake values and exits.
       #    - patches/0002-cpu-fix.patch
 
   - url: https://github.com/dmlc/dlpack/archive/{{ dlpack_git_hash }}.tar.gz

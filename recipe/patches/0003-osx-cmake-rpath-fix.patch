@@ -1,30 +1,21 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7b5a12610..69b886ea1 100644
+index 7b5a12610..50a3c2063 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -11,6 +11,9 @@ set(CMAKE_CXX_STANDARD 11)
- set(CMAKE_CXX_STANDARD_REQUIRED ON)
- set(CMAKE_CXX_EXTENSIONS ON)
+@@ -1,5 +1,9 @@
+ cmake_minimum_required(VERSION 3.13)
 
-+# Set RPATH for OSX
-+set(CMAKE_MACOSX_RPATH 1)
 +
- if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
-   # Load config.cmake only if mxnet is not compiled as a dependency of another project
-   include(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
-@@ -143,14 +146,14 @@ else()
-   execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE SYSTEM_ARCHITECTURE)
++message( "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n================================="
++
++
+ # workaround to store CMAKE_CROSSCOMPILING because is getting reset by the project command
+ if(CMAKE_CROSSCOMPILING)
+   set(__CMAKE_CROSSCOMPILING ${CMAKE_CROSSCOMPILING})
+@@ -1023,3 +1027,6 @@ if(BUILD_CYTHON_MODULES)
+     message(FATAL_ERROR "No python interpreter found to build cython modules")
+   endif()
  endif()
-
--if(CMAKE_BUILD_TYPE STREQUAL "Distribution" AND UNIX AND NOT APPLE)
-+#if(CMAKE_BUILD_TYPE STREQUAL "Distribution" AND UNIX AND NOT APPLE)
-   set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
-   set(CMAKE_INSTALL_RPATH $\{ORIGIN\})
-   # Enforce DT_PATH instead of DT_RUNPATH
-   set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--disable-new-dtags")
-   set(CMAKE_EXE_LINKER_FLAGS "-Wl,--disable-new-dtags")
-   set(Protobuf_USE_STATIC_LIBS ON)
--endif()
-+#endif()
-
- set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/upstream;${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules;${CMAKE_MODULE_PATH}")
++
++
++message(FATAL_ERROR "=========================\n\n CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH} \n\n CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \n\n CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \n\n================================="
