@@ -83,6 +83,7 @@ fi
 
 # Isolate the build.
   # rm -rf Build-${PKG_NAME}  # We could clean it up... But there really is no need.
+cd ${SRC_DIR}
 mkdir -p Build-${PKG_NAME}
 cd Build-${PKG_NAME} || exit 1
 
