@@ -43,6 +43,8 @@ case "${target_platform}" in
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
         AR=${BUILD_PREFIX}/bin/${AR}
         RANLIB=${BUILD_PREFIX}/bin/${RANLIB}
+        # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
+        CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
         ;;
     osx-arm64)
         anaconda_build_opts+=(-DUSE_OPENCV=ON)
@@ -81,10 +83,13 @@ fi
 
 # Isolate the build.
   # rm -rf Build-${PKG_NAME}  # We could clean it up... But there really is no need.
+cd ${SRC_DIR}
 mkdir -p Build-${PKG_NAME}
 cd Build-${PKG_NAME} || exit 1
 
 
+# Generate the build files.
+echo "Generating the build files..."
 cmake .. ${CMAKE_ARGS} \
     -GNinja \
     -LAH \
@@ -110,12 +115,15 @@ cmake .. ${CMAKE_ARGS} \
     -DUSE_JEMALLOC="$JEMALLOC_OPT" \
     -DBUILD_CPP_EXAMPLES=OFF \
     -DBUILD_TESTING=OFF \
+    -DUSE_CXX14_IF_AVAILABLE=ON \
     \
     "${_blas_opts[@]}" \
     "${_gpu_opts[@]}" \
     "${anaconda_build_opts[@]}" \
 
 
+# Build.
+echo "Building..."
 ninja -j${CPU_COUNT}
 ninja install
 
@@ -131,3 +139,8 @@ rm -f ${PREFIX}/lib/libmxnet.a
 
 # remove cmake cruft
 rm -rf ${PREFIX}/lib/cmake/dmlc
+
+
+# Error free exit!
+echo "Error free exit!"
+exit 0

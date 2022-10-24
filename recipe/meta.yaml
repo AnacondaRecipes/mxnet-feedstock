@@ -1,6 +1,35 @@
-{% set mxnet_version="1.5.1" %}
-{% set hash_value="b182c301eb0232aa84440b5b632b4d357a2d6d711f7e7b56133504283d0d19e7" %}
+{% set mxnet_version="1.9.1" %}
+{% set hash_value="cef85932e2b3caead235008473d29512b99581c07da3d10703ff5b6c1fb5bd50" %}
 {% set build_number="0" %}
+
+
+{% set dlpack_git_hash = "3efc489b55385936531a06ff83425b719387ec63" %}
+{% set dlpack_sha_hash = "b59586ce69bcf3efdbf3cf4803fadfeaae4948044e2b8d89cf912194cf28f233" %}
+
+{% set dmlccore_git_hash = "5df8305fe699d3b503d10c60a231ab0223142407" %}
+{% set dmlccore_sha_hash = "a8046f752f36005564d2924b4b6f73e1aea3cce7ff10f9e19d99ad6a22a045b2" %}
+
+{% set googletest_git_hash = "eb9225ce361affe561592e0912320b9db84985d0" %}
+{% set googletest_sha_hash = "a4cb4b0c3ebb191b798594aca674ad47eee255dcb4c26885cf7f49777703484f" %}
+
+{% set intgemm_git_hash = "8f28282c3bd854922da638024d2659be52e892e9" %}
+{% set intgemm_sha_hash = "bc8bd8015613a13747eb769876385ec53e8c1ea7ae3f8414521dc53b8fcdfc65" %}
+
+{% set nvidia_cub_git_hash = "0158fa19f28619886232defd412433974af89611" %}
+{% set nvidia_cub_sha_hash = "43424c4c17a997d1d730c89ec14688671245de7941e02b388d7d3df6ea53777a" %}
+
+# This are future/2.x variables.
+#{% set onednn_git_hash = "58be3660fb57c4c4a3d306730e849237d1271572" %}
+#{% set onednn_sha_hash = "0d170c30ea0a35fbe48008e0e7e729d0993720c14f320ce8e73a891ae176eec4" %}
+
+{% set onnxtensorrt_git_hash = "2eb74d933f89e1590fdbfc64971a36e5f72df720" %}
+{% set onnxtensorrt_sha_hash = "df99819727445c247fb5c21c2fd825ded3269376867457ae84fa6d6f1c0ae331" %}
+
+{% set pslite_git_hash = "34fd45cae457d59850fdcb2066467778d0673f21" %}
+{% set pslite_sha_hash = "ec5d5baab8bbf0c3983ad5f18d7f963f15ae7cd4d154ec204b03c1dceccf209b" %}
+
+{% set tvm_git_hash = "9bd2c7b44208ed992061f8c2688e1137357f1db1" %}
+{% set tvm_sha_hash = "68d0c2f14bd00db2dc90fc1a2ed389a3d04d9176c5f96133dfa44b81c28cdd89" %}
 
 
 package:
@@ -8,13 +37,63 @@ package:
   version: {{ mxnet_version }}
 
 source:
-  url: https://github.com/apache/incubator-mxnet/releases/download/{{ mxnet_version }}/apache-mxnet-src-{{ mxnet_version }}-incubating.tar.gz
-  sha256: {{ hash_value }}
-  patches:
-    - patches/0001-Relax-constraints-on-requests-make-graphviz-optional.patch
-    - patches/0001-use-external-mklml-and-mkldnn-libraries.patch               # [mxnet_blas_impl == 'mkl']
-    - patches/0002-conda-unbundle-libmxnet-DSO.patch
-    - patches/0002-cpu-fix.patch
+  - url:  https://github.com/apache/incubator-mxnet/archive/refs/tags/{{ mxnet_version }}.tar.gz
+    sha256: {{ hash_value }}
+    patches:
+      - patches/0001-cpp-std-14.patch
+      - patches/0001-make-graphviz-optional.patch
+      - patches/0002-conda-unbundle-libmxnet-DSO.patch
+
+  - url: https://github.com/dmlc/dlpack/archive/{{ dlpack_git_hash }}.tar.gz
+    fn: dlpack_{{ dlpack_git_hash }}.tar.gz
+    sha256: {{ dlpack_sha_hash }}
+    folder: 3rdparty/dlpack
+    patches:
+      - patches/0011-cpp-std-14.patch
+
+  - url: https://github.com/dmlc/dmlc-core/archive/{{ dmlccore_git_hash }}.tar.gz
+    fn: dmlc-core_{{ dmlccore_git_hash }}.tar.gz
+    sha256: {{ dmlccore_sha_hash }}
+    folder: 3rdparty/dmlc-core
+
+  - url: https://github.com/google/googletest/archive/{{ googletest_git_hash }}.tar.gz
+    fn: googletest_{{ googletest_git_hash }}.tar.gz
+    sha256: {{ googletest_sha_hash }}
+    folder: 3rdparty/googletest
+
+  - url: https://github.com/kpu/intgemm/archive/{{ intgemm_git_hash }}.tar.gz
+    fn: intgemm_{{ intgemm_git_hash }}.tar.gz
+    sha256: {{ intgemm_sha_hash }}
+    folder: 3rdparty/intgemm
+    patches:
+      - patches/0041-cpp-std-14.patch
+
+  - url: https://github.com/NVlabs/cub/archive/{{ nvidia_cub_git_hash }}.tar.gz
+    fn: nvidia_cub_{{ nvidia_cub_git_hash }}.tar.gz
+    sha256: {{ nvidia_cub_sha_hash }}
+    folder: 3rdparty/nvidia_cub
+
+  # This will be useful for 2.x builds
+  #  - url: https://github.com/oneapi-src/oneDNN/archive/{{ onednn_git_hash }}.tar.gz
+  #    fn: onednn_{{ onednn_git_hash }}.tar.gz
+  #    sha256: {{ onednn_sha_hash }}
+  #    folder: 3rdparty/onednn
+
+  - url: https://github.com/onnx/onnx-tensorrt/archive/{{ onnxtensorrt_git_hash }}.tar.gz
+    fn: onnx-tensorrt_{{ onnxtensorrt_git_hash }}.tar.gz
+    sha256: {{ onnxtensorrt_sha_hash }}
+    folder: 3rdparty/onnx-tensorrt
+
+  - url: https://github.com/dmlc/ps-lite/archive/{{ pslite_git_hash }}.tar.gz
+    fn: ps-lite_{{ pslite_git_hash }}.tar.gz
+    sha256: {{ pslite_sha_hash }}
+    folder: 3rdparty/ps-lite
+
+  - url: https://github.com/apache/incubator-tvm/archive/{{ tvm_git_hash }}.tar.gz
+    fn: tvm_{{ tvm_git_hash }}.tar.gz
+    sha256: {{ tvm_sha_hash }}
+    folder: 3rdparty/tvm
+
 
 # Right now there is no valid win-64 configuration (no mkl). So skip it. We are mxnet_blas_impl as a workaround for conda.
 build:        # [mxnet_blas_impl == 'invalid']
@@ -38,8 +117,10 @@ outputs:
       number: {{ build_number }}
 
     about:
+      home: https://mxnet.apache.org
       summary: Mutex package to pin a variant of MXNet Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: libmxnet
     version: {{ mxnet_version }}
@@ -50,9 +131,10 @@ outputs:
       string: {{ mxnet_variant_str }}_h{{PKG_HASH}}_{{ build_number }}
       number: {{ build_number }}
       skip: True              # [win and vc<14]
-      missing_dso_whitelist:  # [linux]
+      missing_dso_whitelist:  # [linux or osx]
         - libcuda.so.1        # [linux]
-        - '$RPATH/ld64.so.1'  # [s390x] This is missing from the activation script.
+        - '$RPATH/ld64.so.1'  # [linux]
+        - '*/libmxnet.dylib'  # [osx]
 
     requirements:
       build:
@@ -127,7 +209,7 @@ outputs:
         - cython
         - python
         # Numpy's C API is not used
-        - numpy >1.16.0,<=2.0.0
+        - numpy
         - requests >=2.20.0,<3
         - setuptools
       run:
@@ -164,6 +246,8 @@ outputs:
 
   - name: mxnet
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     build:
       number: {{ build_number }}
@@ -174,11 +258,15 @@ outputs:
         - {{ pin_subpackage('py-mxnet', exact=True) }}
 
     about:
+      home: https://mxnet.apache.org
       summary: MXNet metapackage for installing lib,py-MXNet Conda packages
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: mxnet-{{ mxnet_variant_str }}
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     #build:
       #number: {{ build_number }}
@@ -189,11 +277,15 @@ outputs:
         - {{ pin_subpackage('_mutex_mxnet', exact=True) }}
 
     about:
+      home: https://mxnet.apache.org
       summary: MXNet metapackage which pins a variant of MXNet Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
   - name: mxnet-gpu
     version: {{ mxnet_version }}
+    script: build-nothing.bat  # [win]
+    script: build-nothing.sh   # [not win]
 
     build:
       #number: {{ build_number }}
@@ -208,7 +300,8 @@ outputs:
     about:
       home: https://mxnet.apache.org
       summary: MXNet metapackage which pins a variant of MXNet(GPU) Conda package
-
+      dev_url: https://github.com/apache/incubator-mxnet
+      doc_url: https://mxnet.incubator.apache.org/
 
 extra:
   recipe-maintainers:

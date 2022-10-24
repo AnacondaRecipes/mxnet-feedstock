@@ -28,3 +28,8 @@ c_compiler_version:            # [ppc64le]
   - 8                          # [ppc64le]
 cxx_compiler_version:          # [ppc64le]
   - 8                          # [ppc64le]
+
+
+# Default osx-64 sdk does not support c++14 adequately.
+CONDA_BUILD_SYSROOT:           # [osx and x86_64]
+  - /opt/MacOSX10.12.sdk       # [osx and x86_64]
