@@ -6,7 +6,7 @@
 # channel for the update.
 
 {% set mxnet_version="1.9.1" %}
-{% set hash_value="cef85932e2b3caead235008473d29512b99581c07da3d10703ff5b6c1fb5bd50" %}
+{% set hash_value="9927f986b2c2c8315f2ba675e050ce1f4e24e84c4692e5f0a96248876784a8a7" %}
 {% set build_number="1" %}
 
 
