@@ -3,3 +3,6 @@ build_parameters:
   - "--suppress-variables"
   - "--error-overlinking"
   - "--error-overdepending"
+
+upload_channels:
+  - sfe1ed40

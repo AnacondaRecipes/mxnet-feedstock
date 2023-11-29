@@ -1,6 +1,13 @@
+# ************* ATTENTION! ***************
+# version 1.9.1, build number 1 was built against opencv-python-headless, uploaded to the snowflake customer channel,
+# and not released to defaults. version 1.9.1, build number 0 was built against opencv, and released to defaults. mxnet
+# development seems to have been paused, so it's not likely that this package will be updated further. If it is, a
+# decision on how to reconcile this build-version-wise split will need to be made, based on the reason and release
+# channel for the update.
+
 {% set mxnet_version="1.9.1" %}
 {% set hash_value="cef85932e2b3caead235008473d29512b99581c07da3d10703ff5b6c1fb5bd50" %}
-{% set build_number="0" %}
+{% set build_number="1" %}
 
 
 {% set dlpack_git_hash = "3efc489b55385936531a06ff83425b719387ec63" %}
@@ -151,7 +158,7 @@ outputs:
         - mkl-devel                              # [mxnet_blas_impl == 'mkl']
         - intel-openmp                           # [mxnet_blas_impl == 'mkl']
         - openblas-devel                         # [mxnet_blas_impl == 'openblas']
-        - libopencv >=4.6                        # [not s390x]
+        - opencv-python-headless >=4.6                        # [not s390x]
         - imagecodecs                            # [win]
         - cudatoolkit {{ cudatoolkit_version }}  # ['gpu' in str(mxnet_variant_str)]
         - cudnn {{ cudnn_version }}              # ['gpu' in str(mxnet_variant_str)]
@@ -162,7 +169,7 @@ outputs:
         - {{ pin_compatible('mkl-dnn') }}        # [unix and (mxnet_blas_impl == 'mkl')]
         - {{ pin_compatible('intel-openmp') }}   # [mxnet_blas_impl == 'mkl']
         - _openmp_mutex                          # [linux]
-        - opencv >=4.6                           # [not s390x]
+        - opencv-python-headless >=4.6                           # [not s390x]
 
     test:
       commands:
