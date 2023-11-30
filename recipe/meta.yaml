@@ -221,7 +221,7 @@ outputs:
         - setuptools
       run:
         - {{ pin_subpackage('libmxnet', exact=True) }}
-        - numpy >1.16.0,<=2.0.0
+        - {{ pin_compatible('numpy', upper_bound='1.24') }}  # mxnet uses np.bool, which was removed in numpy 1.24.0
         - requests >=2.20.0,<3
         - python
 
