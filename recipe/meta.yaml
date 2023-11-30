@@ -105,7 +105,6 @@ source:
 # Right now there is no valid win-64 configuration (no mkl). So skip it. We are mxnet_blas_impl as a workaround for conda.
 build:        # [mxnet_blas_impl == 'invalid']
   skip: true  # [mxnet_blas_impl == 'invalid']
-  skip: true  # [s390x]
 
 requirements:
   build:
