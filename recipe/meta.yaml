@@ -123,6 +123,9 @@ outputs:
     build:
       string: {{ mxnet_variant_str }}
       number: {{ build_number }}
+      # This package already exists on defaults.
+      # This is here because --skip-existing for multi-output recipes doesn't play well with rocket-platform's upload mechanism.
+      skip: True
 
     about:
       home: https://mxnet.apache.org
@@ -276,8 +279,8 @@ outputs:
     script: build-nothing.bat  # [win]
     script: build-nothing.sh   # [not win]
 
-    #build:
-      #number: {{ build_number }}
+    build:
+      number: {{ build_number }}
 
     requirements:
       run:
